@@ -10,10 +10,22 @@
       <md-input-container>
         <input type="text" mdInput placeholder="Recipe Image link" [formControl]="imageUrl">
       </md-input-container>
-    </md-card-content>
       <md-input-container>
         <textarea mdInput placeholder="Description" [formControl]="description"></textarea>
       </md-input-container>
+      <md-input-container>
+        <textarea mdInput placeholder="Directions" [formControl]="directions"></textarea>
+      </md-input-container>
+      <div>
+        <ng-container formArrayName="ingredients">
+          <ng-container *ngFor="let ingredient of ingredients.controls; index as i">
+            <recipe-ingredient [formControlName]="i"></recipe-ingredient>
+            <a md-button color="accent" (click)="deleteIngredient(i)">remove</a>
+          </ng-container>
+        </ng-container>
+        <a md-button (click)="newIngredient()">add ingredient</a>
+      </div>
+    </md-card-content>
     <md-card-actions>
       <button md-raised-button color="primary" type="submit" [disabled]="!recipeForm.valid">Save</button>
       <button md-button routerLink="/">Cancel</button>

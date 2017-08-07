@@ -21,7 +21,7 @@ export class RecipeListComponent implements OnInit {
   }
 
   view(recipe) {
-    console.log(recipe.$key);
+    console.log(recipe);
   }
 
 }

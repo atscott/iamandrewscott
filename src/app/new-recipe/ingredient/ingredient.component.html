@@ -1,0 +1,16 @@
+<div [formGroup]="ingredientForm">
+  <md-input-container>
+    <input mdInput placeholder="name" [formControl]="name">
+  </md-input-container>
+  <md-input-container>
+    <input mdInput placeholder="details" [formControl]="details">
+  </md-input-container>
+  <div [formGroup]="measurement">
+    <md-input-container>
+      <input mdInput type="number" placeholder="amount" [formControl]="amount">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput placeholder="type" [formControl]="type">
+    </md-input-container>
+  </div>
+</div>
