@@ -1,0 +1,22 @@
+<form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" style="width:500px">
+  <md-card>
+    <md-card-header>
+      <md-input-container>
+        <input type="text" mdInput placeholder="Recipe Name" [formControl]="name">
+      </md-input-container>
+    </md-card-header>
+    <img md-card-image [src]="imageUrl.value">
+    <md-card-content fxLayout="column">
+      <md-input-container>
+        <input type="text" mdInput placeholder="Recipe Image link" [formControl]="imageUrl">
+      </md-input-container>
+    </md-card-content>
+      <md-input-container>
+        <textarea mdInput placeholder="Description" [formControl]="description"></textarea>
+      </md-input-container>
+    <md-card-actions>
+      <button md-raised-button color="primary" type="submit" [disabled]="!recipeForm.valid">Save</button>
+      <button md-button routerLink="/">Cancel</button>
+    </md-card-actions>
+  </md-card>
+</form>

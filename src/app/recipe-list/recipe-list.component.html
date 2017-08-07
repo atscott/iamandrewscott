@@ -1,0 +1,10 @@
+<md-card *ngFor="let recipe of cocktails | async">
+  <md-card-title>{{recipe.name}}</md-card-title>
+  <img md-card-image [src]="recipe.image">
+  <md-card-content>{{recipe.description}}</md-card-content>
+  <md-card-actions>
+    <button md-button (click)="view(recipe)">view</button>
+    <button md-raised-button color="primary" [routerLink]="['/recipe/edit', recipe.$key]">edit</button>
+    <button md-raised-button color="accent" (click)="delete(recipe)">delete</button>
+  </md-card-actions>
+</md-card>
