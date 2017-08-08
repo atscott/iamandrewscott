@@ -6,6 +6,7 @@ import {FormArray, FormControl} from '@angular/forms';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import {Observable, Subscription} from 'rxjs/Rx';
 
+import {Ingredient} from '../new-recipe/ingredient/ingredient.component';
 import {Recipe} from '../new-recipe/new-recipe.component';
 
 export type RecipeInfo = {
@@ -25,6 +26,10 @@ export type RecipeInfo = {
   myIngredients: FormArray;
   allIngredients: string[];
   subscription: Subscription;
+  keys: Set<string>;
+  sortedKeys: string[];
+  ingredientsByType: Map<string, Set<string>>;
+  types: Set<string>;
 
   constructor(db: AngularFireDatabase) {
     this.myIngredients = new FormArray([]);
@@ -33,19 +38,25 @@ export type RecipeInfo = {
 
     this.subscription = this.cocktails.subscribe((l: Recipe[]) => {
       this.latestCocktails = l;
-      this.allIngredients =
-          Array
-              .from(l.map((r) => r.ingredients)
-                        .reduce(
-                            (allIngredients, ingredientsInRecipe) =>
-                                ingredientsInRecipe.reduce(
-                                    (newSet, i) => newSet.add(i.name),
-                                    allIngredients),
-                            new Set<string>()))
-              .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+      this.keys = new Set();
+      this.ingredientsByType = new Map();
+      this.types = new Set();
+      l.map((r) => r.ingredients)
+          .forEach((ingredientsInRecipe) => ingredientsInRecipe.forEach((i) => {
+            const type = (i.type as {} as string) || 'other';
+            const key = `${i.name.toLowerCase()}-${type}`;
+            this.types.add(type);
+            this.keys.add(key);
+            this.ingredientsByType.set(
+                type,
+                (this.ingredientsByType.get(type) || new Set())
+                    .add(i.name.toLowerCase()));
+          }));
+      this.sortedKeys = Array.from(this.keys);
+      this.sortedKeys.sort(
+          (a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
-      this.allIngredients.forEach(
-          () => this.myIngredients.push(new FormControl()));
+      this.keys.forEach(() => this.myIngredients.push(new FormControl()));
     });
 
     this.sortOption.valueChanges.subscribe(() => {
@@ -55,9 +66,15 @@ export type RecipeInfo = {
     this.myIngredients.valueChanges
         .map(
             (v) => v.reduce(
-                (myIngredients, checked, i) => checked ?
-                    myIngredients.add(this.allIngredients[i]) :
-                    myIngredients,
+                (myIngredients, checked, i) => {
+                  if (checked) {
+                    const key = this.sortedKeys[i];
+                    const ingredientName =
+                        key.substring(0, key.lastIndexOf('-'));
+                    return myIngredients.add(ingredientName);
+                  }
+                  return myIngredients;
+                },
                 new Set<string>()))
         .debounceTime(100)
         .distinctUntilChanged()
@@ -92,7 +109,6 @@ export type RecipeInfo = {
   }
 
   applyFilters(recipes: RecipeInfo[]) {
-    console.log('filter');
     let filterFunctions = [];
     if (this.sortOption.value === 'missing') {
       filterFunctions.push(this.sortByMissingIngredientCount);
@@ -125,5 +141,10 @@ export type RecipeInfo = {
 
   view(recipe) {
     console.log(recipe);
+  }
+
+  formControlFor(ingredientName: string, type: string) {
+    const key = `${ingredientName}-${type}`;
+    return this.myIngredients.at(this.sortedKeys.indexOf(key));
   }
 }

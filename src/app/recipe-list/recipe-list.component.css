@@ -1,0 +1,9 @@
+.mat-sidenav {
+    max-width: 400px;
+}
+
+@media(max-width: 800px) {
+    .mat-sidenav {
+        max-width: 300px;
+    }
+}
