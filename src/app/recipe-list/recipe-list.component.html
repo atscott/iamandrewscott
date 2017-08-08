@@ -1,10 +1,43 @@
-<md-card *ngFor="let recipe of cocktails | async">
-  <md-card-title>{{recipe.name}}</md-card-title>
-  <img md-card-image [src]="recipe.image">
-  <md-card-content>{{recipe.description}}</md-card-content>
-  <md-card-actions>
-    <button md-button (click)="view(recipe)">view</button>
-    <button md-raised-button color="primary" [routerLink]="['/recipe/edit', recipe.$key]">edit</button>
-    <button md-raised-button color="accent" (click)="delete(recipe)">delete</button>
-  </md-card-actions>
+<md-card>
+  <md-card-title>Recipe Finding Tools</md-card-title>
+  Ingredients I have:
+  <div fxLayout="row" fxLayoutWrap>
+    <md-checkbox *ngFor="let ingredient of allIngredients; let i = index" [formControl]="myIngredients.at(i)">
+      {{ingredient}}
+    </md-checkbox>
+  </div>
+  <div>
+    Sort Option:
+    <md-radio-group [formControl]="sortOption" fxLayout="column">
+      <md-radio-button [value]="missing">By # of missing ingredients</md-radio-button>
+      <md-radio-button [value]="have">By # of ingredients I have, then by % of total</md-radio-button>
+    </md-radio-group>
+  </div>
 </md-card>
+<ng-container *ngIf="(haversAndHaveNots | async); let recipes">
+  <div fxLayout="row" fxLayoutWrap>
+    <md-card *ngFor="let info of applyFilters(recipes)" style="margin: 16px;" fxFlex.xs="100%" fxFlex.gt-xs="40%" fxFlex.lg="20%">
+      <md-card-title>{{info.recipe.name}}</md-card-title>
+      <img md-card-image [src]="info.recipe.imageUrl">
+      <md-card-content>
+        <div *ngIf="info.have.length > 0">
+          uses your: {{info.have.join(', ')}}
+        </div>
+        <div *ngIf="info.dontHave.length > 0">
+          you're missing: {{info.dontHave.join(', ')}}
+        </div>
+        <div>
+          You have {{info.percentIHave | percent:0}} of the ingredients
+        </div>
+        <div>
+          {{info.recipe.description}}
+        </div>
+      </md-card-content>
+      <md-card-actions>
+        <button md-raised-button (click)="view(recipe)">view</button>
+        <button md-raised-button color="primary" [routerLink]="['/recipe/edit', info.recipe.$key]">edit</button>
+        <button md-raised-button color="accent" (click)="delete(recipe)">delete</button>
+      </md-card-actions>
+    </md-card>
+  </div>
+</ng-container>

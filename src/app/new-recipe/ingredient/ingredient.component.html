@@ -9,8 +9,8 @@
     <md-input-container>
       <input mdInput type="number" placeholder="amount" [formControl]="amount">
     </md-input-container>
-    <md-input-container>
-      <input mdInput placeholder="type" [formControl]="type">
-    </md-input-container>
+    <md-select placeholder="type" [formControl]="type">
+      <md-option *ngFor="let type of measurementTypes" [value]="type">{{type}}</md-option>
+    </md-select>
   </div>
 </div>

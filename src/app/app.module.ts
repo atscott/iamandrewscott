@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {ReactiveFormsModule} from '@angular/forms';
-import {MdButtonModule, MdCardModule, MdInputModule} from '@angular/material';
+import {MdButtonModule, MdCardModule, MdInputModule, MdSelectModule, MdAutocompleteModule, MdCheckboxModule, MdRadioModule} from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {Route, RouterModule} from '@angular/router';
@@ -41,6 +41,10 @@ const routes: Route[] = [
     MdInputModule,
     MdCardModule,
     MdButtonModule,
+    MdSelectModule,
+    MdAutocompleteModule,
+    MdCheckboxModule,
+    MdRadioModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -3,6 +3,15 @@ import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCE
 
 const noop = () => {};
 
+export enum abc {
+  'ounce',
+  'liter',
+  'teaspoon',
+  'tablespoon',
+  'cup',
+  'garnish',
+}
+
 export type MeasurementType =
     'ounce'|'liter'|'teaspoon'|'tablespoon'|'cup'|'garnish';
 
@@ -34,8 +43,13 @@ export class IngredientComponent implements ControlValueAccessor {
   measurement: FormGroup;
   amount: FormControl;
   type: FormControl;
+  measurementTypes: string[] = [];
 
   constructor(builder: FormBuilder) {
+    for (const x in abc) {
+      if(typeof abc[x] === 'number') this.measurementTypes.push(x);
+    }
+
     this.name = new FormControl();
     this.details = new FormControl();
     this.amount = new FormControl();

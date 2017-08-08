@@ -35,10 +35,10 @@ export class NewRecipeComponent implements OnInit {
     this.cocktails = db.list('beer-cocktails');
 
     this.name = new FormControl('', [Validators.required]);
-    this.description = new FormControl('', [Validators.required]);
-    this.directions = new FormControl('', []);
-    this.imageUrl = new FormControl('', [Validators.required]);
-    this.ingredients = new FormArray([]);
+    this.description = new FormControl('');
+    this.directions = new FormControl('');
+    this.imageUrl = new FormControl('');
+    this.ingredients = new FormArray([], Validators.minLength(1));
     this.recipeForm = new FormGroup({
       name: this.name,
       description: this.description,
