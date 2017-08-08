@@ -1,10 +1,31 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <h1 routerLink="/">
-    Beer Cocktails!
-  </h1>
+  <md-toolbar>
+    <div fxFlexLayout="row" fxFlex="grow"> 
+      <div fxFlex="grow" fxLayoutAlign="start center">
+        <button md-button routerLink="/">
+          <md-icon>home</md-icon>
+          <span>Beer Cocktails</span>
+        </button>
+        <button md-button routerLink="/recipe"> new recipe </button>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <div> {{ (user | async)?.displayName }} </div>
+        <button md-icon-button [mdMenuTriggerFor]="menu">
+          <md-icon>more_vert</md-icon>
+        </button>
+        <md-menu #menu="mdMenu">
+          <button md-menu-item (click)="login()" *ngIf="!(user|async)">
+            <md-icon>person</md-icon>
+            <span>log in</span>
+          </button>
+          <button md-menu-item (click)="logout()" *ngIf="user|async">
+            <md-icon>exit_to_app</md-icon>
+            <span>log out</span>
+          </button>
+        </md-menu>
+      </div>
+    </div>
+  </md-toolbar>
 </div>
-<ul>
-  <li><a routerLink="/recipe">new recipe</a></li>
-</ul>
 <router-outlet></router-outlet>
