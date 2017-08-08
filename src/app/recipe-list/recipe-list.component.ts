@@ -1,3 +1,6 @@
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormControl} from '@angular/forms';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
@@ -16,7 +19,8 @@ export type RecipeInfo = {
 }) export class RecipeListComponent implements OnInit {
   cocktails: FirebaseListObservable<any>;
   latestCocktails: Recipe[];
-  haversAndHaveNots: Observable<RecipeInfo[]>;
+  private haversAndHaveNotes: RecipeInfo[] = [];
+  filteredCocktails: Recipe[];
   sortOption: FormControl;
   myIngredients: FormArray;
   allIngredients: string[];
@@ -44,76 +48,79 @@ export type RecipeInfo = {
           () => this.myIngredients.push(new FormControl()));
     });
 
-    this.haversAndHaveNots =
-        this.myIngredients.valueChanges
-            .map(
-                (v) => v.reduce(
-                    (myIngredients, checked, i) => checked ?
-                        myIngredients.add(this.allIngredients[i]) :
-                        myIngredients,
-                    new Set<string>()))
-            .map((myIngredientSet) => this.latestCocktails.map((recipe) => {
+    this.sortOption.valueChanges.subscribe(() => {
+      this.filteredCocktails = this.applyFilters(this.haversAndHaveNotes);
+    });
 
-              const {have, dontHave} = recipe.ingredients.reduce((acc, i) => {
-                if (myIngredientSet.has(i.name.toLowerCase())) {
-                  return {
-                    have: acc.have.add(i.name.toLowerCase()),
-                        dontHave: acc.dontHave
-                  }
-                } else {
-                  return {
-                    have: acc.have, dontHave: acc.dontHave.add(i.name)
-                  }
-                }
-              }, {have: new Set<string>(), dontHave: new Set<string>()});
-              // not sure this is useful. probably just want to rank by
-              // ingredients I don't have, descending
-              const percentIHave =
-                  have.size === 0 ? 0 : have.size / recipe.ingredients.length;
-
+    this.myIngredients.valueChanges
+        .map(
+            (v) => v.reduce(
+                (myIngredients, checked, i) => checked ?
+                    myIngredients.add(this.allIngredients[i]) :
+                    myIngredients,
+                new Set<string>()))
+        .debounceTime(100)
+        .distinctUntilChanged()
+        .map((myIngredientSet) => this.latestCocktails.map((recipe) => {
+          const {have, dontHave} = recipe.ingredients.reduce((acc, i) => {
+            if (myIngredientSet.has(i.name.toLowerCase())) {
               return {
-                recipe,
-                have: Array.from(have),
-                dontHave: Array.from(dontHave),
-                percentIHave
-              };
-            }));
+                have: acc.have.add(i.name.toLowerCase()), dontHave: acc.dontHave
+              }
+            } else {
+              return {
+                have: acc.have, dontHave: acc.dontHave.add(i.name)
+              }
+            }
+          }, {have: new Set<string>(), dontHave: new Set<string>()});
+          // not sure this is useful. probably just want to rank by
+          // ingredients I don't have, descending
+          const percentIHave =
+              have.size === 0 ? 0 : have.size / recipe.ingredients.length;
+
+          return {
+            recipe,
+            have: Array.from(have),
+            dontHave: Array.from(dontHave),
+            percentIHave
+          };
+        }))
+        .subscribe((v: RecipeInfo[]) => {
+          this.haversAndHaveNotes = v;
+          this.filteredCocktails = this.applyFilters(v);
+        });
   }
 
   applyFilters(recipes: RecipeInfo[]) {
+    console.log('filter');
     let filterFunctions = [];
     if (this.sortOption.value === 'missing') {
       filterFunctions.push(this.sortByMissingIngredientCount);
     } else {
-      filterFunctions.push(this.sortByHaveThenPercent);
+      filterFunctions.push(this.sortByPercent);
     }
-    return filterFunctions.reduce((result, f) => f(result), recipes);
+    return filterFunctions.reduce((result, f) => f(recipes), recipes);
   }
 
   sortByMissingIngredientCount(l: RecipeInfo[]) {
     return l.sort((a, b) => a.dontHave.length - b.dontHave.length);
   }
 
-  sortByHaveThenPercent(l: RecipeInfo[]) {
+  sortByPercent(l: RecipeInfo[]) {
     return l.sort((a, b) => {
-      if (a.have.length - b.have.length === 0) {
-        return b.percentIHave - a.percentIHave;
+      if (a.percentIHave - b.percentIHave === 0) {
+        return b.have.length - a.have.length;
       }
-      return b.have.length - a.have.length
+      return b.percentIHave - a.percentIHave;
     });
   }
 
-  removeGarnishIngredients(l: RecipeInfo[]) {
-  }
+  removeGarnishIngredients(l: RecipeInfo[]) {}
 
   ngOnInit() {}
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
-
-  delete(recipe) {
-    this.cocktails.remove(recipe);
   }
 
   view(recipe) {

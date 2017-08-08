@@ -9,35 +9,35 @@
   <div>
     Sort Option:
     <md-radio-group [formControl]="sortOption" fxLayout="column">
-      <md-radio-button [value]="missing">By # of missing ingredients</md-radio-button>
-      <md-radio-button [value]="have">By # of ingredients I have, then by % of total</md-radio-button>
+      <md-radio-button [value]="'missing'">By # of missing ingredients</md-radio-button>
+      <md-radio-button [value]="'have'">By % of total ingredients</md-radio-button>
     </md-radio-group>
   </div>
 </md-card>
-<ng-container *ngIf="(haversAndHaveNots | async); let recipes">
-  <div fxLayout="row" fxLayoutWrap>
-    <md-card *ngFor="let info of applyFilters(recipes)" style="margin: 16px;" fxFlex.xs="100%" fxFlex.gt-xs="40%" fxFlex.lg="20%">
-      <md-card-title>{{info.recipe.name}}</md-card-title>
-      <img md-card-image [src]="info.recipe.imageUrl">
-      <md-card-content>
-        <div *ngIf="info.have.length > 0">
-          uses your: {{info.have.join(', ')}}
-        </div>
-        <div *ngIf="info.dontHave.length > 0">
-          you're missing: {{info.dontHave.join(', ')}}
-        </div>
-        <div>
-          You have {{info.percentIHave | percent:0}} of the ingredients
-        </div>
-        <div>
-          {{info.recipe.description}}
-        </div>
-      </md-card-content>
-      <md-card-actions>
-        <button md-raised-button (click)="view(recipe)">view</button>
-        <button md-raised-button color="primary" [routerLink]="['/recipe/edit', info.recipe.$key]">edit</button>
-        <button md-raised-button color="accent" (click)="delete(recipe)">delete</button>
-      </md-card-actions>
-    </md-card>
-  </div>
-</ng-container>
+<ng-template #blank>
+  Loading
+</ng-template>
+<div fxLayout="row" fxLayoutWrap>
+  <md-card *ngFor="let info of filteredCocktails" style="margin: 16px;" fxFlex.xs="100%" fxFlex.gt-xs="40%" fxFlex.lg="20%">
+    <md-card-title>{{info.recipe.name}}</md-card-title>
+    <img md-card-image [src]="info.recipe.imageUrl">
+    <md-card-content>
+      <div *ngIf="info.have.length > 0">
+        uses your: {{info.have.join(', ')}}
+      </div>
+      <div *ngIf="info.dontHave.length > 0">
+        you're missing: {{info.dontHave.join(', ')}}
+      </div>
+      <div>
+        You have {{info.percentIHave | percent:'1.0-1'}} of the ingredients
+      </div>
+      <div>
+        {{info.recipe.description}}
+      </div>
+    </md-card-content>
+    <md-card-actions>
+      <button md-raised-button (click)="view(recipe)">view</button>
+      <button md-raised-button color="primary" [routerLink]="['/recipe/edit', info.recipe.$key]">edit</button>
+    </md-card-actions>
+  </md-card>
+</div>
