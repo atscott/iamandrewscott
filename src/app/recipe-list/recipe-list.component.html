@@ -23,13 +23,13 @@
     <img md-card-image [src]="info.recipe.imageUrl">
     <md-card-content>
       <div *ngIf="info.have.length > 0">
-        uses your: {{info.have.join(', ')}}
+        <b>uses your</b>: {{info.have.join(', ')}}
       </div>
       <div *ngIf="info.dontHave.length > 0">
-        you're missing: {{info.dontHave.join(', ')}}
+        <b>you're missing {{info.dontHave.length}} ingredients</b>: {{info.dontHave.join(', ')}}
       </div>
       <div>
-        You have {{info.percentIHave | percent:'1.0-1'}} of the ingredients
+        You have <b>{{info.percentIHave | percent:'1.0-1'}}</b> of the ingredients
       </div>
       <div>
         {{info.recipe.description}}
