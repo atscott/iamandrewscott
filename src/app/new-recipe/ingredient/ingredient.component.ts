@@ -3,7 +3,7 @@ import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCE
 
 const noop = () => {};
 
-export enum abc {
+export enum MeasurementType {
   'ounce',
   'liter',
   'teaspoon',
@@ -12,8 +12,15 @@ export enum abc {
   'garnish',
 }
 
-export type MeasurementType =
-    'ounce'|'liter'|'teaspoon'|'tablespoon'|'cup'|'garnish';
+export enum IngredientType {
+  'beer',
+  'liquor',
+  'liqueur',
+  'sugar/syrup/sweetener',
+  'bitters',
+  'juice',
+  'garnish'
+}
 
 export type Measurement = {
   amount: number,
@@ -24,6 +31,7 @@ export type Ingredient = {
   name: string,
   details?: string,
   measurement?: Measurement,
+  type: IngredientType
 };
 
 @Component({
@@ -42,23 +50,31 @@ export class IngredientComponent implements ControlValueAccessor {
   details: FormControl;
   measurement: FormGroup;
   amount: FormControl;
-  type: FormControl;
+  measurementType: FormControl;
   measurementTypes: string[] = [];
+  ingredientType: FormControl;
+  ingredientTypes: string[] = [];
 
   constructor(builder: FormBuilder) {
-    for (const x in abc) {
-      if(typeof abc[x] === 'number') this.measurementTypes.push(x);
+    for (const x in MeasurementType) {
+      if (typeof MeasurementType[x] === 'number') this.measurementTypes.push(x);
+    }
+    for (const x in IngredientType) {
+      if (typeof IngredientType[x] === 'number') this.ingredientTypes.push(x);
     }
 
     this.name = new FormControl();
     this.details = new FormControl();
     this.amount = new FormControl();
-    this.type = new FormControl();
+    this.measurementType = new FormControl();
+    this.ingredientType = new FormControl();
 
-    this.measurement = builder.group({amount: this.amount, type: this.type});
+    this.measurement =
+        builder.group({amount: this.amount, type: this.measurementType});
     this.ingredientForm = builder.group({
       name: this.name,
       details: this.details,
+      type: this.ingredientType,
       measurement: this.measurement
     });
 
@@ -74,9 +90,10 @@ export class IngredientComponent implements ControlValueAccessor {
     if (obj) {
       this.name.setValue(obj.name || '');
       this.details.setValue(obj.details || '');
+      this.ingredientType.setValue(obj.type || '');
       if (obj.measurement) {
         this.amount.setValue(obj.measurement.amount);
-        this.type.setValue(obj.measurement.type || '');
+        this.measurementType.setValue(obj.measurement.type || '');
       }
     }
   }

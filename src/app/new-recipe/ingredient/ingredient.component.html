@@ -5,11 +5,17 @@
   <md-input-container>
     <input mdInput placeholder="details" [formControl]="details">
   </md-input-container>
+  <md-select placeholder="ingredient type" [formControl]="ingredientType">
+    <md-option *ngFor="let type of ingredientTypes" [value]="type">{{type}}</md-option>
+  </md-select>
+  <div>
+    Measurement info:
+  </div>
   <div [formGroup]="measurement">
     <md-input-container>
       <input mdInput type="number" placeholder="amount" [formControl]="amount">
     </md-input-container>
-    <md-select placeholder="type" [formControl]="type">
+    <md-select placeholder="measurement type" [formControl]="measurementType">
       <md-option *ngFor="let type of measurementTypes" [value]="type">{{type}}</md-option>
     </md-select>
   </div>
