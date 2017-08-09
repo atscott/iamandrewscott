@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {ReactiveFormsModule} from '@angular/forms';
-import {MdButtonModule, MdCardModule, MdMenuModule, MdIconModule, MdInputModule, MdSelectModule, MdAutocompleteModule, MdCheckboxModule, MdRadioModule, MdSidenavModule, MdToolbarModule} from '@angular/material';
+import {MdAutocompleteModule, MdButtonModule, MdCardModule, MdCheckboxModule, MdGridListModule, MdIconModule, MdInputModule, MdMenuModule, MdRadioModule, MdSelectModule, MdSidenavModule, MdSnackBarModule, MdToolbarModule,} from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {Route, RouterModule} from '@angular/router';
@@ -11,15 +11,32 @@ import {AngularFireDatabaseModule} from 'angularfire2/database';
 
 import {environment} from '../environments/environment';
 
+import {AdminUserGuard} from './admin-user-guard';
 import {AppComponent} from './app.component';
+import {LandingComponent} from './landing/landing.component';
 import {IngredientComponent} from './new-recipe/ingredient/ingredient.component';
 import {NewRecipeComponent} from './new-recipe/new-recipe.component';
 import {RecipeListComponent} from './recipe-list/recipe-list.component';
+import {VerifiedUserGuard} from './verified-user-guard';
+
 
 const routes: Route[] = [
-  {path: '', component: RecipeListComponent},
-  {path: 'recipe', component: NewRecipeComponent},
-  {path: 'recipe/edit/:recipeId', component: NewRecipeComponent},
+  {path: '', component: LandingComponent},
+  {
+    path: 'list',
+    component: RecipeListComponent,
+    canActivate: [VerifiedUserGuard]
+  },
+  {
+    path: 'recipe',
+    component: NewRecipeComponent,
+    canActivate: [AdminUserGuard]
+  },
+  {
+    path: 'recipe/edit/:recipeId',
+    component: NewRecipeComponent,
+    canActivate: [AdminUserGuard]
+  },
 ];
 
 @NgModule({
@@ -28,6 +45,7 @@ const routes: Route[] = [
     NewRecipeComponent,
     RecipeListComponent,
     IngredientComponent,
+    LandingComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,8 +67,10 @@ const routes: Route[] = [
     MdToolbarModule,
     MdIconModule,
     MdMenuModule,
+    MdGridListModule,
+    MdSnackBarModule,
   ],
-  providers: [],
+  providers: [VerifiedUserGuard, AdminUserGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {

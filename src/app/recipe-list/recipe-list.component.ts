@@ -1,13 +1,17 @@
+
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormControl} from '@angular/forms';
+import {MdSidenav} from '@angular/material';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import {Observable, Subscription} from 'rxjs/Rx';
 
 import {Ingredient} from '../new-recipe/ingredient/ingredient.component';
 import {Recipe} from '../new-recipe/new-recipe.component';
+
+import {sortByMissingIngredientCount, sortByPercent} from './filters';
 
 export type RecipeInfo = {
   recipe: Recipe; have: string[]; dontHave: string[]; percentIHave: number;
@@ -30,6 +34,8 @@ export type RecipeInfo = {
   sortedKeys: string[];
   ingredientsByType: Map<string, Set<string>>;
   types: Set<string>;
+  sidenavMode = window.outerWidth < 650 ? 'over' : 'side';
+  @ViewChild('sidenav') sidenav: MdSidenav;
 
   constructor(db: AngularFireDatabase) {
     this.myIngredients = new FormArray([]);
@@ -90,8 +96,6 @@ export type RecipeInfo = {
               }
             }
           }, {have: new Set<string>(), dontHave: new Set<string>()});
-          // not sure this is useful. probably just want to rank by
-          // ingredients I don't have, descending
           const percentIHave =
               have.size === 0 ? 0 : have.size / recipe.ingredients.length;
 
@@ -111,24 +115,11 @@ export type RecipeInfo = {
   applyFilters(recipes: RecipeInfo[]) {
     let filterFunctions = [];
     if (this.sortOption.value === 'missing') {
-      filterFunctions.push(this.sortByMissingIngredientCount);
+      filterFunctions.push(sortByMissingIngredientCount);
     } else {
-      filterFunctions.push(this.sortByPercent);
+      filterFunctions.push(sortByPercent);
     }
     return filterFunctions.reduce((result, f) => f(recipes), recipes);
-  }
-
-  sortByMissingIngredientCount(l: RecipeInfo[]) {
-    return l.sort((a, b) => a.dontHave.length - b.dontHave.length);
-  }
-
-  sortByPercent(l: RecipeInfo[]) {
-    return l.sort((a, b) => {
-      if (a.percentIHave - b.percentIHave === 0) {
-        return b.have.length - a.have.length;
-      }
-      return b.percentIHave - a.percentIHave;
-    });
   }
 
   removeGarnishIngredients(l: RecipeInfo[]) {}
@@ -137,6 +128,24 @@ export type RecipeInfo = {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    if (event.target.innerWidth < 650) {
+      this.sidenavMode = 'over';
+    } else {
+      this.sidenavMode = 'side';
+      this.sidenav.open();
+    }
+  }
+
+  toggleSidenav() {
+    if (this.sidenav.opened) {
+      this.sidenav.close();
+    } else {
+      this.sidenav.open();
+    }
   }
 
   view(recipe) {
