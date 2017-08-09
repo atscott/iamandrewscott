@@ -24,7 +24,7 @@
     </div>
   </md-sidenav>
   <div class="my-content" fxLayout="row" fxLayoutWrap fxLayoutAlign="center start">
-    <md-card *ngFor="let info of filteredCocktails" style="margin: 16px;" fxFlex="400px">
+    <md-card *ngFor="let info of filteredCocktails" style="margin: 16px;" fxFlex="400px" fxFlex.xs="90%">
       <md-card-title>{{info.recipe.name}}</md-card-title>
       <img md-card-image [src]="info.recipe.imageUrl">
       <md-card-content>

@@ -3,6 +3,18 @@
     padding: 8px;
 }
 
+.mat-sidenav-container {
+    /* subtract header height */
+    height: calc(100% - 64px);
+}
+
+@media(max-width: 600px) {
+    .mat-sidenav-container {
+        /* subtract header height */
+        height: calc(100% - 56px);
+    }
+}
+
 .mat-fab {
   position: fixed;
   bottom: 24px;
@@ -13,4 +25,8 @@
     .mat-sidenav {
         max-width: 300px;
     }
+}
+
+:host {
+    max-width: 100%;
 }
