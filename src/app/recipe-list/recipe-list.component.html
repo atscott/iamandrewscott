@@ -15,7 +15,8 @@
           {{type}}
         </md-expansion-panel-header>
         <div fxLayout="row" fxLayoutWrap>
-          <md-checkbox style="margin:4px;" *ngFor="let ingredient of ingredientsByType.get(type)" [formControl]="formControlFor(ingredient, type)">
+          <md-checkbox (change)="ingredientCheckChange($event, ingredient, type)"
+           style="margin:4px;" *ngFor="let ingredient of ingredientsByType.get(type)" [formControl]="formControlFor(ingredient, type)">
             {{ingredient}}
           </md-checkbox>
         </div>

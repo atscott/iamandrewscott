@@ -6,6 +6,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormControl} from '@angular/forms';
 import {MdSidenav} from '@angular/material';
+import {MdCheckboxChange} from '@angular/material';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import {Observable, Subscription} from 'rxjs/Rx';
 
@@ -36,9 +38,12 @@ export type RecipeInfo = {
   ingredientsByType: Map<string, Set<string>>;
   types: Set<string>;
   sidenavMode = window.outerWidth < 720 ? 'over' : 'side';
+  selectedIngredientKeys: Set<string> = new Set();
   @ViewChild('sidenav') sidenav: MdSidenav;
 
-  constructor(db: AngularFireDatabase) {
+  constructor(
+      db: AngularFireDatabase, private router: Router,
+      private route: ActivatedRoute) {
     this.myIngredients = new FormArray([]);
     this.sortOption = new FormControl('missing');
     this.cocktails = db.list('beer-cocktails');
@@ -63,54 +68,82 @@ export type RecipeInfo = {
       this.sortedKeys.sort(
           (a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
-      this.keys.forEach(() => this.myIngredients.push(new FormControl()));
+      this.sortedKeys.forEach((k) => {
+        this.myIngredients.push(
+            new FormControl(this.selectedIngredientKeys.has(k)));
+      });
+      this.updateList();
     });
 
     this.sortOption.valueChanges.subscribe(() => {
       this.filteredCocktails = this.applyFilters(this.haversAndHaveNotes);
     });
 
-    this.myIngredients.valueChanges
-        .map(
-            (v) => v.reduce(
-                (myIngredients, checked, i) => {
-                  if (checked) {
-                    myIngredients.add(this.sortedKeys[i]);
-                  }
-                  return myIngredients;
-                },
-                new Set<string>()))
-        .debounceTime(100)
-        .distinctUntilChanged()
-        .do((keyset) => {
-          console.log(keyset);
-        })
-        .map((myIngredientSet) => this.latestCocktails.map((recipe) => {
-          const {have, dontHave} = recipe.ingredients.reduce((acc, i) => {
-            if (myIngredientSet.has(this.makeIngredientKey(i))) {
-              return {
-                have: acc.have.add(i.name.toLowerCase()), dontHave: acc.dontHave
-              }
-            } else {
-              return {
-                have: acc.have, dontHave: acc.dontHave.add(i.name)
-              }
-            }
-          }, {have: new Set<string>(), dontHave: new Set<string>()});
-          const percentIHave =
-              have.size === 0 ? 0 : have.size / recipe.ingredients.length;
+    // this is currently a race condition and has to execute before
+    // this.cocktails emits
+    this.route.queryParams.subscribe((params) => {
+      try {
+        this.selectedIngredientKeys =
+            new Set(JSON.parse(params['ingredients']) as string[]);
+        this.updateList();
+      } catch (e) {
+      }
+    });
+  }
 
+  parseIngredientParam() {
+    try {
+      const ingredientParam = this.route.snapshot.params['ingredients'];
+      if (ingredientParam) {
+        this.selectedIngredientKeys =
+            new Set(JSON.parse(ingredientParam) as string[]);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  updateList() {
+    const v = (this.latestCocktails || []).map((recipe) => {
+      const {have, dontHave} = recipe.ingredients.reduce((acc, i) => {
+        if (this.selectedIngredientKeys.has(this.makeIngredientKey(i))) {
           return {
-            recipe,
-            have: Array.from(have),
-            dontHave: Array.from(dontHave),
-            percentIHave
-          };
-        }))
-        .subscribe((v: RecipeInfo[]) => {
-          this.haversAndHaveNotes = v;
-          this.filteredCocktails = this.applyFilters(v);
-        });
+            have: acc.have.add(i.name.toLowerCase()), dontHave: acc.dontHave
+          }
+        } else {
+          return {
+            have: acc.have, dontHave: acc.dontHave.add(i.name)
+          }
+        }
+      }, {have: new Set<string>(), dontHave: new Set<string>()});
+      const percentIHave =
+          have.size === 0 ? 0 : have.size / recipe.ingredients.length;
+
+      return {
+        recipe,
+        have: Array.from(have),
+        dontHave: Array.from(dontHave),
+        percentIHave
+      };
+    });
+    this.haversAndHaveNotes = v;
+    this.filteredCocktails = this.applyFilters(v);
+  }
+
+  ingredientCheckChange(
+      event: MdCheckboxChange, ingredientName: string, ingredientType: string) {
+    if (event.checked) {
+      this.selectedIngredientKeys.add(
+          this.makeKey(ingredientName, ingredientType));
+    } else {
+      this.selectedIngredientKeys.delete(
+          this.makeKey(ingredientName, ingredientType));
+    }
+    this.router.navigate(['/list'], {
+      queryParams: {
+        ingredients: JSON.stringify(Array.from(this.selectedIngredientKeys))
+      }
+    });
   }
 
   applyFilters(recipes: RecipeInfo[]) {
@@ -153,7 +186,7 @@ export type RecipeInfo = {
     console.log(recipe);
   }
 
-  private makeKey(ingredientName: string, type: string) {
+  private makeKey(ingredientName: string, type: string = 'other') {
     return `${ingredientName.toLowerCase()}-${type.toLowerCase()}`;
   }
 
