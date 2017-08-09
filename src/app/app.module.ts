@@ -18,6 +18,7 @@ import {IngredientComponent} from './new-recipe/ingredient/ingredient.component'
 import {NewRecipeComponent} from './new-recipe/new-recipe.component';
 import {RecipeListComponent} from './recipe-list/recipe-list.component';
 import {VerifiedUserGuard} from './verified-user-guard';
+import { RecipeViewComponent } from './recipe-view/recipe-view.component';
 
 
 const routes: Route[] = [
@@ -37,6 +38,11 @@ const routes: Route[] = [
     component: NewRecipeComponent,
     canActivate: [AdminUserGuard]
   },
+  {
+    path: 'recipe/view/:recipeId',
+    component: RecipeViewComponent,
+    canActivate: [VerifiedUserGuard]
+  },
 ];
 
 @NgModule({
@@ -46,6 +52,7 @@ const routes: Route[] = [
     RecipeListComponent,
     IngredientComponent,
     LandingComponent,
+    RecipeViewComponent,
   ],
   imports: [
     BrowserModule,

@@ -182,10 +182,6 @@ export type RecipeInfo = {
     }
   }
 
-  view(recipe) {
-    console.log(recipe);
-  }
-
   private makeKey(ingredientName: string, type: string = 'other') {
     return `${ingredientName.toLowerCase()}-${type.toLowerCase()}`;
   }

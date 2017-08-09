@@ -1,0 +1,16 @@
+<div class="container">
+  <ng-template #loading>
+    Loading recipe...
+  </ng-template>
+  <md-card *ngIf="recipe|async; let r; else loading">
+    <md-card-title>{{r.name}}</md-card-title>
+      <img md-card-image [src]="r.imageUrl">
+    <md-card-content>
+      <div class="description">{{r.description}}</div>
+      <div class="directions">{{r.directions}} </div>
+    </md-card-content>
+    <md-card-actions fxLayout="row" fxLayoutAlign="end">
+      <button md-button color="primary" [routerLink]="['/recipe/edit', r.$key]">edit</button>
+    </md-card-actions>
+  </md-card>
+</div>

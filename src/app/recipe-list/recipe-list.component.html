@@ -25,8 +25,13 @@
   </md-sidenav>
   <div class="my-content" fxLayout="row" fxLayoutWrap fxLayoutAlign="center start">
     <md-card *ngFor="let info of filteredCocktails" style="margin: 16px;" fxFlex="400px" fxFlex.xs="90%">
-      <md-card-title>{{info.recipe.name}}</md-card-title>
-      <img md-card-image [src]="info.recipe.imageUrl">
+      <md-card-header>
+        <md-card-title> {{info.recipe.name}} </md-card-title>
+        <md-card-subtitle>
+          You have <b>{{info.percentIHave | percent:'1.0-1'}}</b> of the ingredients
+        </md-card-subtitle>
+        <img md-card-avatar *ngIf="info.recipe.imageUrl" [src]="info.recipe.imageUrl">
+      </md-card-header>
       <md-card-content>
         <div *ngIf="info.have.length > 0">
           <b>uses your</b>: {{info.have.join(', ')}}
@@ -34,15 +39,9 @@
         <div *ngIf="info.dontHave.length > 0">
           <b>you're missing {{info.dontHave.length}} ingredients</b>: {{info.dontHave.join(', ')}}
         </div>
-        <div>
-          You have <b>{{info.percentIHave | percent:'1.0-1'}}</b> of the ingredients
-        </div>
-        <div>
-          {{info.recipe.description}}
-        </div>
       </md-card-content>
       <md-card-actions>
-        <button md-raised-button (click)="view(recipe)">view</button>
+        <button md-raised-button [routerLink]="['/recipe/view', info.recipe.$key]">view</button>
         <button md-raised-button color="primary" [routerLink]="['/recipe/edit', info.recipe.$key]">edit</button>
       </md-card-actions>
     </md-card>

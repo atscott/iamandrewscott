@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Params} from '@angular/router';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {Subscription} from 'rxjs/Subscription';
 import {Ingredient} from './ingredient/ingredient.component';
+import {Location} from '@angular/common';
 
 export type Recipe = {
   ingredients: Ingredient[],
@@ -30,8 +31,8 @@ export class NewRecipeComponent implements OnInit {
   directions: FormControl;
 
   constructor(
-      private db: AngularFireDatabase, private router: Router,
-      private route: ActivatedRoute) {
+      private db: AngularFireDatabase,
+      private route: ActivatedRoute, public location: Location) {
     this.cocktails = db.list('beer-cocktails');
 
     this.name = new FormControl('', [Validators.required]);
@@ -78,12 +79,12 @@ export class NewRecipeComponent implements OnInit {
   onSubmit() {
     if (this.existingRecipe) {
       this.existingRecipe.update(this.recipeForm.getRawValue()).then(() => {
-        this.router.navigate(['/']);
+        this.location.back();
       });
     } else {
       this.cocktails.push(this.recipeForm.getRawValue())
           .then(() => {
-            this.router.navigate(['/']);
+            this.location.back();
           })
           .catch((e) => {
             console.log('error saving');

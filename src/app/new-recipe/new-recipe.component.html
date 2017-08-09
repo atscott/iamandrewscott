@@ -30,7 +30,7 @@
     </md-card-content>
     <md-card-actions>
       <button md-raised-button color="primary" type="submit" [disabled]="!recipeForm.valid">Save</button>
-      <button md-button routerLink="/">Cancel</button>
+      <a md-button (click)="location.back()">Cancel</a>
     </md-card-actions>
   </md-card>
 </form>
