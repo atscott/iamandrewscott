@@ -1,6 +1,13 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    "beer-cocktails": {
+      ".read": "root.child('users').child(auth.uid).exists() == true",
+      ".write": "root.child('users').child(auth.uid).child('admin').val() == true"
+    },
+    "users": {
+      "$uid": {
+        ".read": "auth.uid != null && $uid === auth.uid"
+      }
+    }
   }
 }
