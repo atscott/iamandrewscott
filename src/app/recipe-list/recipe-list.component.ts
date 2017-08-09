@@ -1,5 +1,6 @@
 
 import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
@@ -34,7 +35,7 @@ export type RecipeInfo = {
   sortedKeys: string[];
   ingredientsByType: Map<string, Set<string>>;
   types: Set<string>;
-  sidenavMode = window.outerWidth < 650 ? 'over' : 'side';
+  sidenavMode = window.outerWidth < 720 ? 'over' : 'side';
   @ViewChild('sidenav') sidenav: MdSidenav;
 
   constructor(db: AngularFireDatabase) {
@@ -50,7 +51,7 @@ export type RecipeInfo = {
       l.map((r) => r.ingredients)
           .forEach((ingredientsInRecipe) => ingredientsInRecipe.forEach((i) => {
             const type = (i.type as {} as string) || 'other';
-            const key = `${i.name.toLowerCase()}-${type}`;
+            const key = this.makeIngredientKey(i);
             this.types.add(type);
             this.keys.add(key);
             this.ingredientsByType.set(
@@ -74,19 +75,19 @@ export type RecipeInfo = {
             (v) => v.reduce(
                 (myIngredients, checked, i) => {
                   if (checked) {
-                    const key = this.sortedKeys[i];
-                    const ingredientName =
-                        key.substring(0, key.lastIndexOf('-'));
-                    return myIngredients.add(ingredientName);
+                    myIngredients.add(this.sortedKeys[i]);
                   }
                   return myIngredients;
                 },
                 new Set<string>()))
         .debounceTime(100)
         .distinctUntilChanged()
+        .do((keyset) => {
+          console.log(keyset);
+        })
         .map((myIngredientSet) => this.latestCocktails.map((recipe) => {
           const {have, dontHave} = recipe.ingredients.reduce((acc, i) => {
-            if (myIngredientSet.has(i.name.toLowerCase())) {
+            if (myIngredientSet.has(this.makeIngredientKey(i))) {
               return {
                 have: acc.have.add(i.name.toLowerCase()), dontHave: acc.dontHave
               }
@@ -132,7 +133,7 @@ export type RecipeInfo = {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    if (event.target.innerWidth < 650) {
+    if (event.target.innerWidth < 720) {
       this.sidenavMode = 'over';
     } else {
       this.sidenavMode = 'side';
@@ -152,8 +153,16 @@ export type RecipeInfo = {
     console.log(recipe);
   }
 
+  private makeKey(ingredientName: string, type: string) {
+    return `${ingredientName.toLowerCase()}-${type.toLowerCase()}`;
+  }
+
+  private makeIngredientKey(i: Ingredient) {
+    return this.makeKey(i.name, (i.type as {} as string));
+  }
+
   formControlFor(ingredientName: string, type: string) {
-    const key = `${ingredientName}-${type}`;
+    const key = this.makeKey(ingredientName, type);
     return this.myIngredients.at(this.sortedKeys.indexOf(key));
   }
 }

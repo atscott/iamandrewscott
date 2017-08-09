@@ -9,17 +9,21 @@
       </md-radio-group>
     </div>
     <h2>My Ingredients:</h2>
-    <div *ngFor="let type of types"> 
-      <h3> {{type}} </h3>
-      <div fxLayout="row" fxLayoutWrap>
-        <md-checkbox style="margin:4px;" *ngFor="let ingredient of ingredientsByType.get(type); let i = index" [value]="ingredient" [formControl]="formControlFor(ingredient, type)">
-          {{ingredient}}
-        </md-checkbox>
-      </div>
+    <div *ngFor="let type of types" style="margin-top: 8px"> 
+      <md-expansion-panel>
+        <md-expansion-panel-header>
+          {{type}}
+        </md-expansion-panel-header>
+        <div fxLayout="row" fxLayoutWrap>
+          <md-checkbox style="margin:4px;" *ngFor="let ingredient of ingredientsByType.get(type)" [formControl]="formControlFor(ingredient, type)">
+            {{ingredient}}
+          </md-checkbox>
+        </div>
+      </md-expansion-panel>
     </div>
   </md-sidenav>
   <div class="my-content" fxLayout="row" fxLayoutWrap fxLayoutAlign="center start">
-    <md-card *ngFor="let info of filteredCocktails" style="margin: 16px;" fxFlex.lt-md="100%" fxFlex.md="45%" fxFlex.lg="40%" fxFlex-xl="30%">
+    <md-card *ngFor="let info of filteredCocktails" style="margin: 16px;" fxFlex="400px">
       <md-card-title>{{info.recipe.name}}</md-card-title>
       <img md-card-image [src]="info.recipe.imageUrl">
       <md-card-content>
