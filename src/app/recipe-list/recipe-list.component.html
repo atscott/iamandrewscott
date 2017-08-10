@@ -1,12 +1,14 @@
 <md-sidenav-container>
   <md-sidenav [mode]="sidenavMode" opened="true" #sidenav>
     <md-card-title>Recipe Finding Tools</md-card-title>
-    <div>
+    <div fxLayoutGap="8px" fxLayout="column">
       Sort Option:
-      <md-radio-group [formControl]="sortOption" fxLayout="column" fxLayoutGap="8px">
+      <md-radio-group (change)="applyFilters()" [formControl]="sortOption">
         <md-radio-button [value]="'missing'">By # of missing ingredients</md-radio-button>
         <md-radio-button [value]="'have'">By % of total ingredients</md-radio-button>
       </md-radio-group>
+      Filter Options:
+      <md-checkbox (change)="applyFilters()" [formControl]="ignoreGarnishIngredients">Ignore garnish ingredients</md-checkbox>
     </div>
     <h2>My Ingredients:</h2>
     <div *ngFor="let type of types" style="margin-top: 8px"> 
@@ -34,18 +36,18 @@
       </md-card-header>
       <md-card-content>
         <div *ngIf="info.have.length > 0">
-          uses your: 
+          Uses your: 
           <ul>
             <li *ngFor="let have of info.have">
-              {{have}}
+              {{have.name}}
             </li>
           </ul>
         </div>
         <div *ngIf="info.dontHave.length > 0">
-          you're missing {{info.dontHave.length}} ingredients:
+          You're missing {{info.dontHave.length}} ingredients:
           <ul>
             <li *ngFor="let missing of info.dontHave">
-              {{missing}}
+              {{missing.name}}
             </li>
           </ul>
         </div>

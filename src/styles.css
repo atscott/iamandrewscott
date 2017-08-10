@@ -8,6 +8,14 @@ html, body, material-app, md-sidenav-container, .my-content {
   height: 100%;
 }
 
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, .87);
+}
+
 .mat-button, .mat-raised-button {
   text-transform: uppercase;
 }

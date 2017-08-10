@@ -7,7 +7,19 @@
       <img md-card-image [src]="r.imageUrl">
     <md-card-content>
       <div class="description">{{r.description}}</div>
-      <div class="directions">{{r.directions}} </div>
+      <hr>
+      <h3>Ingredients</h3>
+      <md-list>
+        <md-list-item *ngFor="let i of r.ingredients">
+          {{i.measurement?.amount}}
+          {{i.measurement?.type}}
+          {{i.name}} 
+          <ng-container *ngIf="i.details">({{i.details}})</ng-container>
+        </md-list-item>
+      </md-list>
+      <hr>
+      <h3>Directions</h3>
+      <div class="directions">{{r.directions}}</div>
     </md-card-content>
     <md-card-actions fxLayout="row" fxLayoutAlign="end">
       <button md-button color="primary" [routerLink]="['/recipe/edit', r.$key]">edit</button>
