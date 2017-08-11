@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {ReactiveFormsModule} from '@angular/forms';
-import {MdListModule, MdAutocompleteModule, MdButtonModule, MdCardModule, MdCheckboxModule, MdGridListModule, MdIconModule, MdInputModule, MdMenuModule, MdRadioModule, MdSelectModule, MdSidenavModule, MdSnackBarModule, MdToolbarModule,MdExpansionModule} from '@angular/material';
+import {MdAutocompleteModule, MdButtonModule, MdCardModule, MdCheckboxModule, MdExpansionModule, MdGridListModule, MdIconModule, MdInputModule, MdListModule, MdMenuModule, MdRadioModule, MdSelectModule, MdSidenavModule, MdSnackBarModule, MdToolbarModule} from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {Route, RouterModule} from '@angular/router';
@@ -16,9 +16,11 @@ import {AppComponent} from './app.component';
 import {LandingComponent} from './landing/landing.component';
 import {IngredientComponent} from './new-recipe/ingredient/ingredient.component';
 import {NewRecipeComponent} from './new-recipe/new-recipe.component';
+import {ProgressiveBackgroundImageDirective} from './images/progressive-background-image.directive';
+import {ProgressiveImageComponent} from './images/progressive-image.component';
 import {RecipeListComponent} from './recipe-list/recipe-list.component';
+import {RecipeViewComponent} from './recipe-view/recipe-view.component';
 import {VerifiedUserGuard} from './verified-user-guard';
-import { RecipeViewComponent } from './recipe-view/recipe-view.component';
 
 
 const routes: Route[] = [
@@ -53,6 +55,8 @@ const routes: Route[] = [
     IngredientComponent,
     LandingComponent,
     RecipeViewComponent,
+    ProgressiveImageComponent,
+    ProgressiveBackgroundImageDirective,
   ],
   imports: [
     BrowserModule,

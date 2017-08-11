@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-import { Observable } from 'rxjs/Observable';
-import {Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 
 
 @Component({
@@ -13,8 +13,9 @@ import {Router} from '@angular/router';
 export class AppComponent {
   user: Observable<firebase.User>;
 
-  constructor(private readonly afAuth: AngularFireAuth, private router: Router) {
-     this.user = afAuth.authState;
+  constructor(
+      private readonly afAuth: AngularFireAuth, private router: Router) {
+    this.user = afAuth.authState;
   }
 
   login() {

@@ -1,0 +1,29 @@
+.container {
+  background-color: #f6f6f6;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+img {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: opacity 1s linear;
+}
+
+.blur {
+  filter: blur(50px);
+}
+
+img.blur {
+  /* this is needed so Safari keeps sharp edges */
+  transform: scale(1);
+}
+
+img.loaded {
+  opacity: 1;
+}

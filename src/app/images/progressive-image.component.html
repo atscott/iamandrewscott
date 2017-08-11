@@ -1,0 +1,5 @@
+<div class="container">
+  <img class="blur" [src]="lowQualityImage" (load)="lowQualityImageLoaded = true" [ngClass]="{loaded: lowQualityImageLoaded}">
+  <img [src]="highQualityImage" (load)="highQualityImageLoaded = true" [ngClass]="{loaded: highQualityImageLoaded}" [srcset]="srcset?.join(', ')||[highQualityImage]">
+  <div style="padding-bottom: 66.6%;"></div>
+</div>
