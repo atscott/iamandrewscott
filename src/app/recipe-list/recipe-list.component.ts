@@ -25,7 +25,7 @@ export type RecipeInfo = {
   selector: 'app-recipe-list',
   templateUrl: './recipe-list.component.html',
   styleUrls: ['./recipe-list.component.css']
-}) export class RecipeListComponent implements OnInit {
+}) export class RecipeListComponent {
   cocktails: FirebaseListObservable<any>;
   latestCocktails: Recipe[];
   private haversAndHaveNotes: RecipeInfo[] = [];
@@ -38,7 +38,7 @@ export type RecipeInfo = {
   sortedKeys: string[];
   ingredientsByType: Map<string, Set<string>>;
   types: Set<string>;
-  sidenavMode = window.outerWidth < 720 ? 'over' : 'side';
+  sidenavMode: string;
   selectedIngredientKeys: Set<string> = new Set();
   @ViewChild('sidenav') sidenav: MdSidenav;
 
@@ -155,7 +155,14 @@ export type RecipeInfo = {
         (result, f) => f(result), this.haversAndHaveNotes);
   }
 
-  ngOnInit() {}
+  ngAfterViewInit() {
+      if(window.outerWidth < 720) {
+        this.sidenavMode = 'over';
+        this.sidenav.close();
+      } else {
+        this.sidenavMode = 'side';
+      }
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {

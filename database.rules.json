@@ -1,7 +1,8 @@
 {
   "rules": {
     "beer-cocktails": {
-      ".read": "root.child('users').child(auth.uid).exists() == true",
+      ".read": true,
+      // ".read": "root.child('users').child(auth.uid).exists() == true",
       ".write": "root.child('users').child(auth.uid).child('admin').val() == true"
     },
     "users": {

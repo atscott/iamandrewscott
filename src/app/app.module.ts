@@ -21,6 +21,7 @@ import {ProgressiveImageComponent} from './images/progressive-image.component';
 import {RecipeListComponent} from './recipe-list/recipe-list.component';
 import {RecipeViewComponent} from './recipe-view/recipe-view.component';
 import {VerifiedUserGuard} from './verified-user-guard';
+import {LoggedInGuard} from './logged-in-guard';
 
 
 const routes: Route[] = [
@@ -28,7 +29,7 @@ const routes: Route[] = [
   {
     path: 'list',
     component: RecipeListComponent,
-    canActivate: [VerifiedUserGuard]
+    // canActivate: [VerifiedUserGuard]
   },
   {
     path: 'recipe',
@@ -43,7 +44,7 @@ const routes: Route[] = [
   {
     path: 'recipe/view/:recipeId',
     component: RecipeViewComponent,
-    canActivate: [VerifiedUserGuard]
+    // canActivate: [VerifiedUserGuard]
   },
 ];
 
@@ -83,7 +84,7 @@ const routes: Route[] = [
     MdExpansionModule,
     MdListModule,
   ],
-  providers: [VerifiedUserGuard, AdminUserGuard],
+  providers: [VerifiedUserGuard, AdminUserGuard, LoggedInGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {
