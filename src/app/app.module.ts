@@ -29,7 +29,7 @@ const routes: Route[] = [
   {
     path: 'list',
     component: RecipeListComponent,
-    // canActivate: [VerifiedUserGuard]
+    canActivate: [VerifiedUserGuard]
   },
   {
     path: 'recipe',
@@ -44,7 +44,7 @@ const routes: Route[] = [
   {
     path: 'recipe/view/:recipeId',
     component: RecipeViewComponent,
-    // canActivate: [VerifiedUserGuard]
+    canActivate: [VerifiedUserGuard]
   },
 ];
 
