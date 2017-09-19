@@ -1,5 +1,5 @@
-
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/map';
 
 import {Injectable} from '@angular/core';
 import {MdSnackBar} from '@angular/material';
@@ -8,8 +8,6 @@ import {Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import {Observable} from 'rxjs/Observable';
-
-
 
 @Injectable()
 export class LoggedInGuard implements CanActivate {

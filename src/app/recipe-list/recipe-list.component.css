@@ -3,6 +3,10 @@
     padding: 8px;
 }
 
+.mat-drawer-content {
+    margin-left: 400px;
+}
+
 .mat-sidenav-container {
     /* subtract header height */
     height: calc(100% - 64px);
@@ -19,12 +23,6 @@
   position: fixed;
   bottom: 24px;
   right: 24px;
-}
-
-@media(max-width: 800px) {
-    .mat-sidenav {
-        max-width: 300px;
-    }
 }
 
 :host {

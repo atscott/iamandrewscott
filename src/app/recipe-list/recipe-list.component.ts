@@ -155,12 +155,12 @@ export type RecipeInfo = {
         (result, f) => f(result), this.haversAndHaveNotes);
   }
 
-  ngAfterViewInit() {
-      if(window.outerWidth < 720) {
+  ngOnInit() {
+      if(window.outerWidth < 800) {
         this.sidenavMode = 'over';
-        this.sidenav.close();
       } else {
         this.sidenavMode = 'side';
+        this.sidenav.opened = true;
       }
   }
 
@@ -168,6 +168,7 @@ export type RecipeInfo = {
   onResize(event) {
     if (event.target.innerWidth < 720) {
       this.sidenavMode = 'over';
+      this.sidenav.close();
     } else {
       this.sidenavMode = 'side';
       this.sidenav.open();
