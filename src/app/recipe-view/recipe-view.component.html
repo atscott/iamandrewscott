@@ -2,27 +2,27 @@
   <ng-template #loading>
     Loading recipe...
   </ng-template>
-  <md-card *ngIf="recipe|async; let r; else loading">
-    <md-card-title>{{r.name}}</md-card-title>
-      <img md-card-image [src]="r.imageUrl">
-    <md-card-content>
+  <mat-card *ngIf="recipe|async; let r; else loading">
+    <mat-card-title>{{r.name}}</mat-card-title>
+      <img mat-card-image [src]="r.imageUrl">
+    <mat-card-content>
       <div class="description">{{r.description}}</div>
       <hr>
       <h3>Ingredients</h3>
-      <md-list>
-        <md-list-item *ngFor="let i of r.ingredients">
+      <mat-list>
+        <mat-list-item *ngFor="let i of r.ingredients">
           {{i.measurement?.amount}}
           {{i.measurement?.type}}
           {{i.name}} 
           <ng-container *ngIf="i.details">({{i.details}})</ng-container>
-        </md-list-item>
-      </md-list>
+        </mat-list-item>
+      </mat-list>
       <hr>
       <h3>Directions</h3>
       <div class="directions">{{r.directions}}</div>
-    </md-card-content>
-    <md-card-actions fxLayout="row" fxLayoutAlign="end">
-      <button md-button color="primary" [routerLink]="['/recipe/edit', r.$key]">edit</button>
-    </md-card-actions>
-  </md-card>
+    </mat-card-content>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="end">
+      <button mat-button color="primary" [routerLink]="['/recipe/edit', recipeId]">edit</button>
+    </mat-card-actions>
+  </mat-card>
 </div>

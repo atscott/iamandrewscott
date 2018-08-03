@@ -17,6 +17,8 @@
     ],
     "types": [
       "firebase"
-    ]
+    ],
+    "module": "es2015",
+    "baseUrl": "./"
   }
 }

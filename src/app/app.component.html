@@ -1,34 +1,34 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <md-toolbar color="primary">
+  <mat-toolbar color="primary">
     <div fxFlexLayout="row" fxFlex="grow"> 
       <div fxFlex="grow" fxLayoutAlign="start center">
-        <button md-button routerLink="/">
-          <md-icon>home</md-icon>
+        <button mat-button routerLink="/">
+          <mat-icon>home</mat-icon>
           <span>Home</span>
         </button>
-        <button md-button routerLink="/list">
+        <button mat-button routerLink="/list">
           <span>Beer Cocktails</span>
         </button>
-        <button md-button routerLink="/recipe"> new recipe </button>
+        <button mat-button routerLink="/recipe"> new recipe </button>
       </div>
       <div fxLayout="row" fxLayoutAlign="center center">
         <div> {{ (user | async)?.displayName }} </div>
-        <button md-icon-button [mdMenuTriggerFor]="menu">
-          <md-icon>more_vert</md-icon>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
         </button>
-        <md-menu #menu="mdMenu">
-          <button md-menu-item (click)="login()" *ngIf="!(user|async)">
-            <md-icon>person</md-icon>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="login()" *ngIf="!(user|async)">
+            <mat-icon>person</mat-icon>
             <span>log in</span>
           </button>
-          <button md-menu-item (click)="logout()" *ngIf="user|async">
-            <md-icon>exit_to_app</md-icon>
+          <button mat-menu-item (click)="logout()" *ngIf="user|async">
+            <mat-icon>exit_to_app</mat-icon>
             <span>log out</span>
           </button>
-        </md-menu>
+        </mat-menu>
       </div>
     </div>
-  </md-toolbar>
+  </mat-toolbar>
 </div>
 <router-outlet></router-outlet>

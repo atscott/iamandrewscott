@@ -1,40 +1,40 @@
-<md-sidenav-container>
-  <md-sidenav [mode]="sidenavMode" #sidenav>
-    <md-card-title>Recipe Finding Tools</md-card-title>
+<mat-sidenav-container>
+  <mat-sidenav [mode]="sidenavMode" #sidenav>
+    <mat-card-title>Recipe Finding Tools</mat-card-title>
     <div fxLayoutGap="8px" fxLayout="column">
       Sort Option:
-      <md-radio-group (change)="applyFilters()" [formControl]="sortOption">
-        <md-radio-button [value]="'missing'">By # of missing ingredients</md-radio-button>
-        <md-radio-button [value]="'have'">By % of total ingredients</md-radio-button>
-      </md-radio-group>
+      <mat-radio-group (change)="applyFilters()" [formControl]="sortOption">
+        <mat-radio-button [value]="'missing'">By # of missing ingredients</mat-radio-button>
+        <mat-radio-button [value]="'have'">By % of total ingredients</mat-radio-button>
+      </mat-radio-group>
       Filter Options:
-      <md-checkbox (change)="applyFilters()" [formControl]="ignoreGarnishIngredients">Ignore garnish ingredients</md-checkbox>
+      <mat-checkbox (change)="applyFilters()" [formControl]="ignoreGarnishIngredients">Ignore garnish ingredients</mat-checkbox>
     </div>
     <h2>My Ingredients:</h2>
     <div *ngFor="let type of types" style="margin-top: 8px"> 
-      <md-expansion-panel>
-        <md-expansion-panel-header>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
           {{type}}
-        </md-expansion-panel-header>
-        <div fxLayout="row" fxLayoutWrap>
-          <md-checkbox (change)="ingredientCheckChange($event, ingredient, type)"
+        </mat-expansion-panel-header>
+        <div fxLayout="row wrap">
+          <mat-checkbox (change)="ingredientCheckChange($event, ingredient, type)"
            style="margin:4px;" *ngFor="let ingredient of ingredientsByType.get(type)" [formControl]="formControlFor(ingredient, type)">
             {{ingredient}}
-          </md-checkbox>
+          </mat-checkbox>
         </div>
-      </md-expansion-panel>
+      </mat-expansion-panel>
     </div>
-  </md-sidenav>
-  <div class="my-content" fxLayout="row" fxLayoutWrap fxLayoutAlign="center start">
-    <md-card *ngFor="let info of filteredCocktails" style="margin: 16px;" fxFlex="400px" fxFlex.xs="90%">
-      <md-card-header>
-        <md-card-title> <b>{{info.recipe.name}}</b> </md-card-title>
-        <md-card-subtitle>
+  </mat-sidenav>
+  <div class="my-content" fxLayout="row wrap" fxLayoutAlign="center start">
+    <mat-card *ngFor="let info of filteredCocktails" style="margin: 16px;" fxFlex="400px" fxFlex.xs="90%">
+      <mat-card-header>
+        <mat-card-title> <b>{{info.recipe.name}}</b> </mat-card-title>
+        <mat-card-subtitle>
           You have <b>{{info.percentIHave | percent:'1.0-1'}}</b> of the ingredients
-        </md-card-subtitle>
-        <img md-card-avatar *ngIf="info.recipe.imageUrl" [src]="info.recipe.imageUrl">
-      </md-card-header>
-      <md-card-content>
+        </mat-card-subtitle>
+        <img mat-card-avatar *ngIf="info.recipe.imageUrl" [src]="info.recipe.imageUrl">
+      </mat-card-header>
+      <mat-card-content>
         <div *ngIf="info.have.length > 0">
           Uses your: 
           <ul>
@@ -51,14 +51,14 @@
             </li>
           </ul>
         </div>
-      </md-card-content>
-      <md-card-actions fxLayout="row" fxLayoutAlign="end">
-        <button md-button [routerLink]="['/recipe/view', info.recipe.$key]">view</button>
-        <button md-button color="primary" [routerLink]="['/recipe/edit', info.recipe.$key]">edit</button>
-      </md-card-actions>
-    </md-card>
+      </mat-card-content>
+      <mat-card-actions fxLayout="row" fxLayoutAlign="end">
+        <button mat-button [routerLink]="['/recipe/view', info.recipe.key]">view</button>
+        <button mat-button color="primary" [routerLink]="['/recipe/edit', info.recipe.key]">edit</button>
+      </mat-card-actions>
+    </mat-card>
   </div>
-</md-sidenav-container>
-<button md-fab (click)="toggleSidenav()" *ngIf="sidenavMode === 'over'">
-  <md-icon>filter_list</md-icon>
+</mat-sidenav-container>
+<button mat-fab (click)="toggleSidenav()" *ngIf="sidenavMode === 'over'">
+  <mat-icon>filter_list</mat-icon>
 </button>

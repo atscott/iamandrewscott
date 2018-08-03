@@ -1,32 +1,35 @@
-
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/distinctUntilChanged';
-
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormControl} from '@angular/forms';
-import {MdSidenav} from '@angular/material';
-import {MdCheckboxChange} from '@angular/material';
+import {MatSidenav} from '@angular/material';
+import {MatCheckboxChange} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
-import {Observable, Subscription} from 'rxjs/Rx';
+import {
+  AngularFireDatabase,
+} from 'angularfire2/database';
+import {Observable, Subscription} from 'rxjs';
+
+import {distinctUntilChanged, debounceTime, map} from 'rxjs/operators';
 
 import {Ingredient} from '../new-recipe/ingredient/ingredient.component';
 import {Recipe} from '../new-recipe/new-recipe.component';
 
-import {removeGarnishIngredients, sortByMissingIngredientCount, sortByPercent} from './filters';
+import {
+  removeGarnishIngredients,
+  sortByMissingIngredientCount,
+  sortByPercent
+} from './filters';
 
 export type RecipeInfo = {
-  recipe: Recipe; have: Ingredient[]; dontHave: Ingredient[];
-  percentIHave: number;
+  recipe : Recipe; have : Ingredient[]; dontHave : Ingredient[];
+  percentIHave : number;
 }
 
 @Component({
-  selector: 'app-recipe-list',
-  templateUrl: './recipe-list.component.html',
-  styleUrls: ['./recipe-list.component.css']
+  selector : 'app-recipe-list',
+  templateUrl : './recipe-list.component.html',
+  styleUrls : [ './recipe-list.component.css' ]
 }) export class RecipeListComponent {
-  cocktails: FirebaseListObservable<any>;
+  cocktails: Observable<any[]>;
   latestCocktails: Recipe[];
   private haversAndHaveNotes: RecipeInfo[] = [];
   filteredCocktails: Recipe[];
@@ -40,15 +43,18 @@ export type RecipeInfo = {
   types: Set<string>;
   sidenavMode: string;
   selectedIngredientKeys: Set<string> = new Set();
-  @ViewChild('sidenav') sidenav: MdSidenav;
+  @ViewChild('sidenav') sidenav: MatSidenav;
 
-  constructor(
-      db: AngularFireDatabase, private router: Router,
-      private route: ActivatedRoute) {
+  constructor(db: AngularFireDatabase, private router: Router,
+              private route: ActivatedRoute) {
     this.myIngredients = new FormArray([]);
     this.sortOption = new FormControl('missing');
     this.ignoreGarnishIngredients = new FormControl(false);
-    this.cocktails = db.list('beer-cocktails');
+    this.cocktails =
+        db.list('beer-cocktails')
+            .snapshotChanges()
+            .pipe(map(actions => actions.map(
+                          a => ({key : a.key, ...a.payload.val()}))));
 
     const subscription = this.cocktails.subscribe((l: Recipe[]) => {
       this.latestCocktails = l;
@@ -62,13 +68,12 @@ export type RecipeInfo = {
             this.types.add(type);
             this.keys.add(key);
             this.ingredientsByType.set(
-                type,
-                (this.ingredientsByType.get(type) || new Set())
-                    .add(i.name.toLowerCase()));
+                type, (this.ingredientsByType.get(type) || new Set())
+                          .add(i.name.toLowerCase()));
           }));
       this.sortedKeys = Array.from(this.keys);
-      this.sortedKeys.sort(
-          (a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+      this.sortedKeys.sort((a, b) =>
+                               a.toLowerCase().localeCompare(b.toLowerCase()));
 
       this.sortedKeys.forEach((k) => {
         this.myIngredients.push(
@@ -107,26 +112,22 @@ export type RecipeInfo = {
     const v = (this.latestCocktails || []).map((recipe) => {
       const {have, dontHave} = recipe.ingredients.reduce((acc, i) => {
         if (this.selectedIngredientKeys.has(this.makeIngredientKey(i))) {
-          return {
-            have: acc.have.concat(i), dontHave: acc.dontHave
-          }
+          return { have: acc.have.concat(i), dontHave: acc.dontHave }
         } else {
-          return {
-            have: acc.have, dontHave: acc.dontHave.concat(i)
-          }
+          return { have: acc.have, dontHave: acc.dontHave.concat(i) }
         }
-      }, {have: [], dontHave: []});
+      }, {have : [], dontHave : []});
       const percentIHave =
           have.length === 0 ? 0 : have.length / recipe.ingredients.length;
 
-      return {recipe, have: have, dontHave: dontHave, percentIHave};
+      return {recipe, have : have, dontHave : dontHave, percentIHave};
     });
     this.haversAndHaveNotes = v;
     this.applyFilters();
   }
 
-  ingredientCheckChange(
-      event: MdCheckboxChange, ingredientName: string, ingredientType: string) {
+  ingredientCheckChange(event: MatCheckboxChange, ingredientName: string,
+                        ingredientType: string) {
     if (event.checked) {
       this.selectedIngredientKeys.add(
           this.makeKey(ingredientName, ingredientType));
@@ -134,9 +135,9 @@ export type RecipeInfo = {
       this.selectedIngredientKeys.delete(
           this.makeKey(ingredientName, ingredientType));
     }
-    this.router.navigate(['/list'], {
-      queryParams: {
-        ingredients: JSON.stringify(Array.from(this.selectedIngredientKeys))
+    this.router.navigate([ '/list' ], {
+      queryParams : {
+        ingredients : JSON.stringify(Array.from(this.selectedIngredientKeys))
       }
     });
   }
@@ -151,20 +152,20 @@ export type RecipeInfo = {
     } else {
       filterFunctions.push(sortByPercent);
     }
-    this.filteredCocktails = filterFunctions.reduce(
-        (result, f) => f(result), this.haversAndHaveNotes);
+    this.filteredCocktails = filterFunctions.reduce((result, f) => f(result),
+                                                    this.haversAndHaveNotes);
   }
 
   ngOnInit() {
-      if(window.outerWidth < 800) {
-        this.sidenavMode = 'over';
-      } else {
-        this.sidenavMode = 'side';
-        this.sidenav.opened = true;
-      }
+    if (window.outerWidth < 800) {
+      this.sidenavMode = 'over';
+    } else {
+      this.sidenavMode = 'side';
+      this.sidenav.opened = true;
+    }
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize', [ '$event' ])
   onResize(event) {
     if (event.target.innerWidth < 720) {
       this.sidenavMode = 'over';

@@ -1,13 +1,12 @@
-import 'rxjs/add/operator/mergeMap';
-
 import {Injectable} from '@angular/core';
-import {MdSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 import {CanActivate} from '@angular/router';
 import {Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFireDatabase} from 'angularfire2/database';
 import * as firebase from 'firebase/app';
-import {Observable} from 'rxjs/Observable';
+import {Observable, of} from 'rxjs';
+import {flatMap, map} from 'rxjs/operators';
 
 
 @Injectable()
@@ -16,21 +15,21 @@ export class AdminUserGuard implements CanActivate {
 
   constructor(
       private readonly afAuth: AngularFireAuth, private router: Router,
-      private db: AngularFireDatabase, private snackbar: MdSnackBar) {
+      private db: AngularFireDatabase, private snackbar: MatSnackBar) {
     this.user = afAuth.authState;
   }
 
   canActivate() {
-    return this.user.flatMap((u) => {
+    const result: Observable<boolean> = this.user.pipe(flatMap((u) => {
       if (!u || !u.uid) {
         this.snackbar.open(
             'You need to be an logged in to access that.', 'dismiss',
             {duration: 3000});
         this.router.navigate(['/']);
-        return Observable.of(false);
+        return of(false);
       }
-      return this.db.object(`/users/${u.uid}`).map((u) => {
-        if (!u.$exists() || !u.admin) {
+      return this.db.object(`/users/${u.uid}`).valueChanges().pipe(map((u: {admin: boolean}) => {
+        if (!u || !u.admin) {
           this.snackbar.open(
               'You need to be an admin to access that.', 'dismiss',
               {duration: 3000});
@@ -38,7 +37,8 @@ export class AdminUserGuard implements CanActivate {
           return false;
         }
         return true;
-      });
-    });
+      }));
+    }));
+    return result;
   }
 }

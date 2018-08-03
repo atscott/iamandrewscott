@@ -1,36 +1,36 @@
 <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" style="width:500px">
-  <md-card>
-    <md-card-header>
-      <md-input-container>
-        <input type="text" mdInput placeholder="Recipe Name" [formControl]="name">
-      </md-input-container>
-    </md-card-header>
-    <img md-card-image [src]="imageUrl.value">
-    <md-card-content fxLayout="column">
-      <md-input-container>
-        <input type="text" mdInput placeholder="Recipe Image link" [formControl]="imageUrl">
-      </md-input-container>
-      <md-input-container>
-        <textarea mdInput placeholder="Description" [formControl]="description"></textarea>
-      </md-input-container>
-      <md-input-container>
-        <textarea mdInput placeholder="Directions" [formControl]="directions"></textarea>
-      </md-input-container>
+  <mat-card>
+    <mat-card-header>
+      <mat-form-field>
+        <input type="text" matInput placeholder="Recipe Name" [formControl]="name">
+      </mat-form-field>
+    </mat-card-header>
+    <img mat-card-image [src]="imageUrl.value">
+    <mat-card-content fxLayout="column">
+      <mat-form-field>
+        <input type="text" matInput placeholder="Recipe Image link" [formControl]="imageUrl">
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput placeholder="Description" [formControl]="description"></textarea>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput placeholder="Directions" [formControl]="directions"></textarea>
+      </mat-form-field>
       <div>
         <ng-container formArrayName="ingredients">
           <ng-container *ngFor="let ingredient of ingredients.controls; index as i">
             <recipe-ingredient [formControlName]="i"></recipe-ingredient>
-            <a md-button color="accent" (click)="deleteIngredient(i)">remove</a>
+            <a mat-button color="accent" (click)="deleteIngredient(i)">remove</a>
           </ng-container>
         </ng-container>
         <div>
-          <a md-button (click)="newIngredient()">add ingredient</a>
+          <a mat-button (click)="newIngredient()">add ingredient</a>
         </div>
       </div>
-    </md-card-content>
-    <md-card-actions>
-      <button md-raised-button color="primary" type="submit" [disabled]="!recipeForm.valid">Save</button>
-      <a md-button (click)="location.back()">Cancel</a>
-    </md-card-actions>
-  </md-card>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!recipeForm.valid">Save</button>
+      <a mat-button (click)="location.back()">Cancel</a>
+    </mat-card-actions>
+  </mat-card>
 </form>

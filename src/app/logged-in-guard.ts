@@ -1,13 +1,11 @@
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/map';
-
 import {Injectable} from '@angular/core';
-import {MdSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 import {CanActivate} from '@angular/router';
 import {Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class LoggedInGuard implements CanActivate {
@@ -15,12 +13,12 @@ export class LoggedInGuard implements CanActivate {
 
   constructor(
       private readonly afAuth: AngularFireAuth, private router: Router,
-      private snackbar: MdSnackBar) {
+      private snackbar: MatSnackBar) {
     this.user = afAuth.authState;
   }
 
   canActivate() {
-    return this.user.map((u) => {
+    return this.user.pipe(map((u) => {
       if (!u || !u.uid) {
         this.snackbar.open(
             'You need to be an logged in to access that.', 'dismiss',
@@ -29,6 +27,6 @@ export class LoggedInGuard implements CanActivate {
         return false;
       }
       return true;
-    });
+    }));
   }
 }

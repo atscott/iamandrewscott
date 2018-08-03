@@ -1,22 +1,22 @@
 <div [formGroup]="ingredientForm">
-  <md-input-container>
-    <input mdInput placeholder="name" [formControl]="name">
-  </md-input-container>
-  <md-input-container>
-    <input mdInput placeholder="details" [formControl]="details">
-  </md-input-container>
-  <md-select placeholder="ingredient type" [formControl]="ingredientType">
-    <md-option *ngFor="let type of ingredientTypes" [value]="type">{{type}}</md-option>
-  </md-select>
+  <mat-form-field>
+    <input matInput placeholder="name" [formControl]="name">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="details" [formControl]="details">
+  </mat-form-field>
+  <mat-select placeholder="ingredient type" [formControl]="ingredientType">
+    <mat-option *ngFor="let type of ingredientTypes" [value]="type">{{type}}</mat-option>
+  </mat-select>
   <div>
     Measurement info:
   </div>
   <div [formGroup]="measurement">
-    <md-input-container>
-      <input mdInput type="number" placeholder="amount" [formControl]="amount">
-    </md-input-container>
-    <md-select placeholder="measurement type" [formControl]="measurementType">
-      <md-option *ngFor="let type of measurementTypes" [value]="type">{{type}}</md-option>
-    </md-select>
+    <mat-form-field>
+      <input matInput type="number" placeholder="amount" [formControl]="amount">
+    </mat-form-field>
+    <mat-select placeholder="measurement type" [formControl]="measurementType">
+      <mat-option *ngFor="let type of measurementTypes" [value]="type">{{type}}</mat-option>
+    </mat-select>
   </div>
 </div>
