@@ -11,19 +11,10 @@
       <mat-checkbox (change)="applyFilters()" [formControl]="ignoreGarnishIngredients">Ignore garnish ingredients</mat-checkbox>
     </div>
     <h2>My Ingredients:</h2>
-    <div *ngFor="let type of types" style="margin-top: 8px"> 
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          {{type}}
-        </mat-expansion-panel-header>
-        <div fxLayout="row wrap">
-          <mat-checkbox (change)="ingredientCheckChange($event, ingredient, type)"
-           style="margin:4px;" *ngFor="let ingredient of ingredientsByType.get(type)" [formControl]="formControlFor(ingredient, type)">
-            {{ingredient}}
-          </mat-checkbox>
-        </div>
-      </mat-expansion-panel>
-    </div>
+    <ingredient-selector [ingredients]="allIngredients" 
+                         (selectedIngredientsChange)="selectedIngredientsChange($event)" 
+                         [selectedIngredients]="selectedIngredients">
+    </ingredient-selector>
   </mat-sidenav>
   <div class="my-content" fxLayout="row wrap" fxLayoutAlign="center start">
     <mat-card *ngFor="let info of filteredCocktails" style="margin: 16px;" fxFlex="400px" fxFlex.xs="90%">

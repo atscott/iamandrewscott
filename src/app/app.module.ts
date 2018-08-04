@@ -17,7 +17,8 @@ import {
   MatSelectModule,
   MatSidenavModule,
   MatSnackBarModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatChipsModule,
 } from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -43,6 +44,7 @@ import {NewRecipeComponent} from './new-recipe/new-recipe.component';
 import {RecipeListComponent} from './recipe-list/recipe-list.component';
 import {RecipeViewComponent} from './recipe-view/recipe-view.component';
 import {VerifiedUserGuard} from './verified-user-guard';
+import { IngredientSelectorComponent } from './recipe-list/ingredient-selector/ingredient-selector.component';
 
 const routes: Route[] = [
   {path : '', component : LandingComponent},
@@ -78,6 +80,7 @@ const routes: Route[] = [
     RecipeViewComponent,
     ProgressiveImageComponent,
     ProgressiveBackgroundImageDirective,
+    IngredientSelectorComponent,
   ],
   imports : [
     BrowserModule,
@@ -103,6 +106,7 @@ const routes: Route[] = [
     MatSnackBarModule,
     MatExpansionModule,
     MatListModule,
+    MatChipsModule,
   ],
   providers : [
     VerifiedUserGuard, AdminUserGuard, LoggedInGuard,
