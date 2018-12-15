@@ -74,7 +74,7 @@ export type RecipeInfo = {
   updateList() {
     const v = (this.latestCocktails || []).map((recipe) => {
       const {have, dontHave} = recipe.ingredients.reduce((acc, i) => {
-        if (this.selectedIngredients.has(i.name)) {
+        if (this.selectedIngredients.has(i.name.toLowerCase())) {
           return {
             have: acc.have.concat(i), dontHave: acc.dontHave
           }

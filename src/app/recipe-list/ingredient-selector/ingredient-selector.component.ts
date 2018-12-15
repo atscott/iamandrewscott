@@ -54,8 +54,10 @@ export class IngredientSelectorComponent {
     const typesArray =
         Array.from(this.ingredientsByType.keys()).reduce((types, type) => {
           const ingredients = Array.from(this.ingredientsByType.get(type));
-          types.push(
-              {name: type, ingredients: this.filterIngredients(ingredients, filterValue)});
+          types.push({
+            name: type,
+            ingredients: this.filterIngredients(ingredients, filterValue)
+          });
           return types;
         }, []);
     return typesArray
