@@ -1,0 +1,31 @@
+<mat-card style="margin: 16px;" fxFlex="400px" fxFlex.xs="90%">
+    <mat-card-header>
+    <mat-card-title> <b>{{recipeInfo.recipe.name}}</b> </mat-card-title>
+    <mat-card-subtitle>
+        You have <b>{{recipeInfo.percentIHave | percent:'1.0-1'}}</b> of the ingredients
+    </mat-card-subtitle>
+    <img mat-card-avatar *ngIf="recipeInfo.recipe.imageUrl" [src]="recipeInfo.recipe.imageUrl">
+    </mat-card-header>
+    <mat-card-content>
+    <div *ngIf="recipeInfo.have.length > 0">
+        Uses your: 
+        <ul>
+        <li *ngFor="let have of recipeInfo.have">
+            {{have.name}}
+        </li>
+        </ul>
+    </div>
+    <div *ngIf="recipeInfo.dontHave.length > 0">
+        You're missing {{recipeInfo.dontHave.length}} ingredients:
+        <ul>
+        <li *ngFor="let missing of recipeInfo.dontHave">
+            {{missing.name}}
+        </li>
+        </ul>
+    </div>
+    </mat-card-content>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="end">
+    <a mat-button [routerLink]="['/recipe/view', recipeInfo.recipe.key]">view</a>
+    <a mat-button color="primary" [routerLink]="['/recipe/edit', recipeInfo.recipe.key]">edit</a>
+    </mat-card-actions>
+</mat-card>

@@ -45,6 +45,7 @@ import {
 import {RecipeListComponent} from './recipe-list/recipe-list.component';
 import {RecipeViewComponent} from './recipe-view/recipe-view.component';
 import {VerifiedUserGuard} from './verified-user-guard';
+import { RecipeCardComponent } from './recipe-list/recipe-card/recipe-card.component';
 
 const routes: Route[] = [
   {path : '', component : LandingComponent},
@@ -81,6 +82,7 @@ const routes: Route[] = [
     ProgressiveImageComponent,
     ProgressiveBackgroundImageDirective,
     IngredientSelectorComponent,
+    RecipeCardComponent,
   ],
   imports : [
     BrowserModule,
