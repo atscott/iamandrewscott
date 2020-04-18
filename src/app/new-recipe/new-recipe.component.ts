@@ -6,7 +6,7 @@ import {
   AngularFireDatabase,
   AngularFireList,
   AngularFireObject
-} from 'angularfire2/database';
+} from '@angular/fire/database';
 import {Observable, Subscription} from 'rxjs';
 
 import {Ingredient} from './ingredient/ingredient.component';

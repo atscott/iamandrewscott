@@ -2,16 +2,16 @@ import {Injectable} from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {CanActivate} from '@angular/router';
 import {Router} from '@angular/router';
-import {AngularFireAuth} from 'angularfire2/auth';
-import {AngularFireDatabase} from 'angularfire2/database';
-import * as firebase from 'firebase/app';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireDatabase} from '@angular/fire/database';
+import {User} from 'firebase/app';
 import {Observable, of} from 'rxjs';
 import {flatMap, map} from 'rxjs/operators';
 
 
 @Injectable()
 export class AdminUserGuard implements CanActivate {
-  user: Observable<firebase.User>;
+  user: Observable<User>;
 
   constructor(
       private readonly afAuth: AngularFireAuth, private router: Router,

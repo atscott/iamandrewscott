@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {AngularFireAuth} from 'angularfire2/auth';
-import * as firebase from 'firebase/app';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {User,auth} from 'firebase/app';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -20,6 +20,6 @@ export class LandingComponent {
   }
 
   login() {
-    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    this.afAuth.signInWithPopup(new auth.GoogleAuthProvider());
   }
 }

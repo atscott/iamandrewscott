@@ -2,7 +2,7 @@ import {Component, HostListener, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AngularFireDatabase,} from 'angularfire2/database';
+import {AngularFireDatabase,} from '@angular/fire/database';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -21,7 +21,7 @@ export type RecipeInfo = {
   templateUrl: './recipe-list.component.html',
   styleUrls: ['./recipe-list.component.css']
 }) export class RecipeListComponent {
-  cocktails: Observable<any[]>;
+  cocktails: Observable<Recipe[]>;
   latestCocktails: Recipe[];
   private haversAndHaveNotes: RecipeInfo[] = [];
   filteredCocktails: Recipe[];
@@ -41,7 +41,7 @@ export type RecipeInfo = {
       private route: ActivatedRoute) {
     this.sortOption = new FormControl('missing');
     this.ignoreGarnishIngredients = new FormControl(false);
-    this.cocktails = db.list('beer-cocktails')
+    this.cocktails = db.list<Recipe>('beer-cocktails')
                          .snapshotChanges()
                          .pipe(
                              map(actions => actions.map(

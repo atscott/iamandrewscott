@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "i-am-andrew-scott"
+  },
+  "targets": {
+    "i-am-andrew-scott": {
+      "hosting": {
+        "beer-cocktails": [
+          "i-am-andrew-scott"
+        ]
+      }
+    }
   }
 }

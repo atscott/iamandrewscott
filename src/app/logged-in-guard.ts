@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {CanActivate} from '@angular/router';
 import {Router} from '@angular/router';
-import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireAuth} from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
