@@ -30,7 +30,7 @@ export type RecipeInfo = {
   allIngredients: Ingredient[] = [];
   sidenavMode: string;
   selectedIngredients: Set<string> = new Set();
-  @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild('sidenav', { static: true }) sidenav: MatSidenav;
 
   get selectedIngredientsArray() {
     return Array.from(this.selectedIngredients);

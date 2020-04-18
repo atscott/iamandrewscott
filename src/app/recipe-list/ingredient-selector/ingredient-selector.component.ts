@@ -25,7 +25,7 @@ export class IngredientSelectorComponent {
       Observable<Array<{name: string, ingredients: string[]}>>;
   readonly ingredientControl = new FormControl();
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  @ViewChild('ingredientInput') ingredientInput: ElementRef;
+  @ViewChild('ingredientInput', { static: true }) ingredientInput: ElementRef;
 
   constructor() {
     this.filteredIngredientTypes = this.ingredientControl.valueChanges.pipe(
