@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Recipe} from '../../new-recipe/new-recipe.component';
+import { RecipeInfo } from '../recipe-list.component';
 
 @Component({
   selector : 'recipe-card',
@@ -7,5 +7,5 @@ import {Recipe} from '../../new-recipe/new-recipe.component';
   styleUrls : [ './recipe-card.component.css' ]
 })
 export class RecipeCardComponent {
-  @Input() recipeInfo: Recipe;
+  @Input() recipeInfo: RecipeInfo;
 }

@@ -16,19 +16,21 @@ import {
 } from './filters';
 
 export type RecipeInfo = {
-  recipe: Recipe; have : Ingredient[]; dontHave : Ingredient[];
+  recipe: Recipe&{key: string}; have : Ingredient[]; dontHave : Ingredient[];
   percentIHave : number;
 }
+
+type RecipeWithDbKey = Recipe & {key: string};
 
 @Component({
   selector : 'app-recipe-list',
   templateUrl : './recipe-list.component.html',
   styleUrls : [ './recipe-list.component.css' ]
 }) export class RecipeListComponent implements OnInit {
-  cocktails: Observable<Recipe[]>;
-  latestCocktails: Recipe[];
+  cocktails: Observable<RecipeWithDbKey[]>;
+  latestCocktails: RecipeWithDbKey[];
   private haversAndHaveNots: RecipeInfo[] = [];
-  filteredCocktails: Recipe[];
+  filteredCocktails: RecipeWithDbKey[];
   sortOption: FormControl;
   ignoreGarnishIngredients: FormControl;
   allIngredients: Ingredient[] = [];
@@ -54,7 +56,7 @@ export type RecipeInfo = {
             .pipe(map(actions => actions.map(
                           a => ({key : a.key, ...a.payload.val()}))));
 
-    this.cocktails.pipe(take(1)).subscribe((recipeList: Recipe[]) => {
+    this.cocktails.pipe(take(1)).subscribe((recipeList: RecipeWithDbKey[]) => {
       this.latestCocktails = recipeList;
       this.allIngredients = [];
       recipeList.map((recipe) => recipe.ingredients)
