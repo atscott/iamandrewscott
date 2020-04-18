@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {CanActivate} from '@angular/router';
 import {Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth';

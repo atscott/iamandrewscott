@@ -1,6 +1,6 @@
 import {Component, HostListener, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {MatSidenav} from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFireDatabase,} from 'angularfire2/database';
 import {Observable} from 'rxjs';
