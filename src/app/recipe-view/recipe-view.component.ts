@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AngularFireDatabase} from '@angular/fire/database';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 
 import {Recipe} from '../new-recipe/new-recipe.component';

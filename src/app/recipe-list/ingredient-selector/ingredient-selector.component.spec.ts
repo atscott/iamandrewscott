@@ -1,16 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { IngredientSelectorComponent } from './ingredient-selector.component';
+import {IngredientSelectorComponent} from './ingredient-selector.component';
 
 describe('IngredientSelectorComponent', () => {
   let component: IngredientSelectorComponent;
   let fixture: ComponentFixture<IngredientSelectorComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ IngredientSelectorComponent ]
-    })
-    .compileComponents();
+    TestBed
+        .configureTestingModule(
+            {declarations : [ IngredientSelectorComponent ]})
+        .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +19,5 @@ describe('IngredientSelectorComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should create', () => { expect(component).toBeTruthy(); });
 });

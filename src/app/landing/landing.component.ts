@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {User,auth} from 'firebase/app';
+import {auth, User} from 'firebase/app';
 import {Observable} from 'rxjs';
 
 @Component({
-  selector: 'app-landing',
-  templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.css']
+  selector : 'app-landing',
+  templateUrl : './landing.component.html',
+  styleUrls : [ './landing.component.css' ]
 })
 export class LandingComponent {
   readonly hqImage =
@@ -19,7 +19,5 @@ export class LandingComponent {
     this.user = afAuth.authState;
   }
 
-  login() {
-    this.afAuth.signInWithPopup(new auth.GoogleAuthProvider());
-  }
+  login() { this.afAuth.signInWithPopup(new auth.GoogleAuthProvider()); }
 }

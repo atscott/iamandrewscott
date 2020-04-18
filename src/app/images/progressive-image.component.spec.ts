@@ -7,7 +7,8 @@ describe('ProgressiveImageComponent', () => {
   let fixture: ComponentFixture<ProgressiveImageComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({declarations: [ProgressiveImageComponent]})
+    TestBed
+        .configureTestingModule({declarations : [ ProgressiveImageComponent ]})
         .compileComponents();
   }));
 
@@ -17,7 +18,5 @@ describe('ProgressiveImageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should be created', () => { expect(component).toBeTruthy(); });
 });

@@ -1,17 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RecipeViewComponent } from './recipe-view.component';
 import {AppModule} from '../app.module';
+
+import {RecipeViewComponent} from './recipe-view.component';
 
 describe('RecipeViewComponent', () => {
   let component: RecipeViewComponent;
   let fixture: ComponentFixture<RecipeViewComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [AppModule]
-    })
-    .compileComponents();
+    TestBed.configureTestingModule({imports : [ AppModule ]})
+        .compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,7 +19,5 @@ describe('RecipeViewComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should be created', () => { expect(component).toBeTruthy(); });
 });

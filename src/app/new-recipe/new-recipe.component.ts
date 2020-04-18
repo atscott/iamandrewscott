@@ -1,23 +1,22 @@
 import {Location} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Params} from '@angular/router';
 import {
   AngularFireDatabase,
   AngularFireList,
   AngularFireObject
 } from '@angular/fire/database';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Params} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 
 import {Ingredient} from './ingredient/ingredient.component';
 
 export type Recipe = {
-  ingredients : Ingredient[],
-  name : string,
+  ingredients: Ingredient[],
+  name: string,
   description?: string,
   directions?: string,
-  recipeUrl?: string,
-  imageUrl : string,
+  recipeUrl?: string, imageUrl: string,
 };
 
 @Component({
@@ -80,9 +79,8 @@ export class NewRecipeComponent implements OnInit {
 
   onSubmit() {
     if (this.existingRecipeRef) {
-      this.existingRecipeRef.update(this.recipeForm.getRawValue()).then(() => {
-        this.location.back();
-      });
+      this.existingRecipeRef.update(this.recipeForm.getRawValue())
+          .then(() => { this.location.back(); });
     } else {
       this.addNewRecipe();
     }

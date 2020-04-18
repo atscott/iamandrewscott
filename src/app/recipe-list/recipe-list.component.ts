@@ -1,25 +1,31 @@
 import {Component, HostListener, ViewChild} from '@angular/core';
+import {
+  AngularFireDatabase,
+} from '@angular/fire/database';
 import {FormControl} from '@angular/forms';
-import { MatSidenav } from '@angular/material/sidenav';
+import {MatSidenav} from '@angular/material/sidenav';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AngularFireDatabase,} from '@angular/fire/database';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {Ingredient} from '../new-recipe/ingredient/ingredient.component';
 import {Recipe} from '../new-recipe/new-recipe.component';
 
-import {removeGarnishIngredients, sortByMissingIngredientCount, sortByPercent} from './filters';
+import {
+  removeGarnishIngredients,
+  sortByMissingIngredientCount,
+  sortByPercent
+} from './filters';
 
 export type RecipeInfo = {
-  recipe: Recipe; have: Ingredient[]; dontHave: Ingredient[];
-  percentIHave: number;
+  recipe: Recipe; have : Ingredient[]; dontHave : Ingredient[];
+  percentIHave : number;
 }
 
 @Component({
-  selector: 'app-recipe-list',
-  templateUrl: './recipe-list.component.html',
-  styleUrls: ['./recipe-list.component.css']
+  selector : 'app-recipe-list',
+  templateUrl : './recipe-list.component.html',
+  styleUrls : [ './recipe-list.component.css' ]
 }) export class RecipeListComponent {
   cocktails: Observable<Recipe[]>;
   latestCocktails: Recipe[];
@@ -30,30 +36,28 @@ export type RecipeInfo = {
   allIngredients: Ingredient[] = [];
   sidenavMode: string;
   selectedIngredients: Set<string> = new Set();
-  @ViewChild('sidenav', { static: true }) sidenav: MatSidenav;
+  @ViewChild('sidenav', {static : true}) sidenav: MatSidenav;
 
   get selectedIngredientsArray() {
     return Array.from(this.selectedIngredients);
   }
 
-  constructor(
-      db: AngularFireDatabase, private router: Router,
-      private route: ActivatedRoute) {
+  constructor(db: AngularFireDatabase, private router: Router,
+              private route: ActivatedRoute) {
     this.sortOption = new FormControl('missing');
     this.ignoreGarnishIngredients = new FormControl(false);
-    this.cocktails = db.list<Recipe>('beer-cocktails')
-                         .snapshotChanges()
-                         .pipe(
-                             map(actions => actions.map(
-                                     a => ({key: a.key, ...a.payload.val()}))));
+    this.cocktails =
+        db.list<Recipe>('beer-cocktails')
+            .snapshotChanges()
+            .pipe(map(actions => actions.map(
+                          a => ({key : a.key, ...a.payload.val()}))));
 
     const subscription = this.cocktails.subscribe((l: Recipe[]) => {
       this.latestCocktails = l;
       this.allIngredients = [];
       l.map((r) => r.ingredients)
-          .forEach((ingredientsInRecipe) => ingredientsInRecipe.forEach((i) => {
-            this.allIngredients.push(i);
-          }));
+          .forEach((ingredientsInRecipe) => ingredientsInRecipe.forEach(
+                       (i) => { this.allIngredients.push(i); }));
 
       this.updateList();
 
@@ -75,15 +79,11 @@ export type RecipeInfo = {
     const v = (this.latestCocktails || []).map((recipe) => {
       const {have, dontHave} = recipe.ingredients.reduce((acc, i) => {
         if (this.selectedIngredients.has(i.name.toLowerCase())) {
-          return {
-            have: acc.have.concat(i), dontHave: acc.dontHave
-          }
+          return {have : acc.have.concat(i), dontHave : acc.dontHave};
         } else {
-          return {
-            have: acc.have, dontHave: acc.dontHave.concat(i)
-          }
+          return {have : acc.have, dontHave : acc.dontHave.concat(i)};
         }
-      }, {have: [], dontHave: []});
+      }, {have : [], dontHave : []});
       const percentIHave =
           have.length === 0 ? 0 : have.length / recipe.ingredients.length;
 
@@ -95,9 +95,9 @@ export type RecipeInfo = {
 
   selectedIngredientsChange(ingredientNames: Set<string>) {
     this.selectedIngredients = ingredientNames;
-    this.router.navigate(['/list'], {
-      queryParams: {
-        ingredients: JSON.stringify([...Array.from(this.selectedIngredients)])
+    this.router.navigate([ '/list' ], {
+      queryParams : {
+        ingredients : JSON.stringify([...Array.from(this.selectedIngredients) ])
       }
     });
   }
@@ -112,8 +112,8 @@ export type RecipeInfo = {
     } else {
       filterFunctions.push(sortByPercent);
     }
-    this.filteredCocktails = filterFunctions.reduce(
-        (result, f) => f(result), this.haversAndHaveNotes);
+    this.filteredCocktails = filterFunctions.reduce((result, f) => f(result),
+                                                    this.haversAndHaveNotes);
   }
 
   ngOnInit() {
@@ -125,7 +125,7 @@ export type RecipeInfo = {
     }
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize', [ '$event' ])
   onResize(event) {
     if (event.target.innerWidth < 720) {
       this.sidenavMode = 'over';

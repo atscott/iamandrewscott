@@ -1,19 +1,27 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
+import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import {MatChipInputEvent} from '@angular/material/chips';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 
 import {Ingredient} from '../../new-recipe/ingredient/ingredient.component';
 
-
 @Component({
-  selector: 'ingredient-selector',
-  templateUrl: './ingredient-selector.component.html',
-  styleUrls: ['./ingredient-selector.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector : 'ingredient-selector',
+  templateUrl : './ingredient-selector.component.html',
+  styleUrls : [ './ingredient-selector.component.css' ],
+  changeDetection : ChangeDetectionStrategy.OnPush
 })
 export class IngredientSelectorComponent {
   @Input() ingredients: Ingredient[] = [];
@@ -23,10 +31,10 @@ export class IngredientSelectorComponent {
   ingredientNames: Set<string> = new Set();
 
   readonly filteredIngredientTypes:
-      Observable<Array<{name: string, ingredients: string[]}>>;
+      Observable<Array<{name : string, ingredients: string[]}>>;
   readonly ingredientControl = new FormControl();
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  @ViewChild('ingredientInput', { static: true }) ingredientInput: ElementRef;
+  separatorKeysCodes: number[] = [ ENTER, COMMA ];
+  @ViewChild('ingredientInput', {static : true}) ingredientInput: ElementRef;
 
   constructor() {
     this.filteredIngredientTypes = this.ingredientControl.valueChanges.pipe(
@@ -50,19 +58,19 @@ export class IngredientSelectorComponent {
   }
 
   private filterTypes(value: string):
-      Array<{name: string, ingredients: string[]}> {
+      Array<{name : string, ingredients: string[]}> {
     const filterValue = value.toLowerCase();
     const typesArray =
         Array.from(this.ingredientsByType.keys()).reduce((types, type) => {
           const ingredients = Array.from(this.ingredientsByType.get(type));
           types.push({
-            name: type,
-            ingredients: this.filterIngredients(ingredients, filterValue)
+            name : type,
+            ingredients : this.filterIngredients(ingredients, filterValue)
           });
           return types;
         }, []);
     return typesArray
-        .map(type => ({name: type.name, ingredients: type.ingredients}))
+        .map(type => ({name : type.name, ingredients : type.ingredients}))
         .filter(type => type.ingredients.length > 0);
   }
 
@@ -72,7 +80,6 @@ export class IngredientSelectorComponent {
     return opt.filter(item => item.toLowerCase().indexOf(filterValue) >= 0)
         .filter(item => !this.selectedIngredients.has(item));
   };
-
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();

@@ -1,5 +1,11 @@
 import {Component, forwardRef, OnInit} from '@angular/core';
-import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NG_VALUE_ACCESSOR
+} from '@angular/forms';
 
 const noop = () => {};
 
@@ -30,19 +36,18 @@ export type Measurement = {
 export type Ingredient = {
   name: string,
   details?: string,
-  measurement?: Measurement,
-  type: IngredientType
+  measurement?: Measurement, type: IngredientType
 };
 
 @Component({
-  selector: 'recipe-ingredient',
-  templateUrl: './ingredient.component.html',
-  styleUrls: ['./ingredient.component.css'],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => IngredientComponent),
-    multi: true
-  }]
+  selector : 'recipe-ingredient',
+  templateUrl : './ingredient.component.html',
+  styleUrls : [ './ingredient.component.css' ],
+  providers : [ {
+    provide : NG_VALUE_ACCESSOR,
+    useExisting : forwardRef(() => IngredientComponent),
+    multi : true
+  } ]
 })
 export class IngredientComponent implements ControlValueAccessor {
   ingredientForm: FormGroup;
@@ -57,10 +62,12 @@ export class IngredientComponent implements ControlValueAccessor {
 
   constructor(builder: FormBuilder) {
     for (const x in MeasurementType) {
-      if (typeof MeasurementType[x] === 'number') this.measurementTypes.push(x);
+      if (typeof MeasurementType[x] === 'number')
+        this.measurementTypes.push(x);
     }
     for (const x in IngredientType) {
-      if (typeof IngredientType[x] === 'number') this.ingredientTypes.push(x);
+      if (typeof IngredientType[x] === 'number')
+        this.ingredientTypes.push(x);
     }
 
     this.name = new FormControl();
@@ -70,18 +77,16 @@ export class IngredientComponent implements ControlValueAccessor {
     this.ingredientType = new FormControl();
 
     this.measurement =
-        builder.group({amount: this.amount, type: this.measurementType});
+        builder.group({amount : this.amount, type : this.measurementType});
     this.ingredientForm = builder.group({
-      name: this.name,
-      details: this.details,
-      type: this.ingredientType,
-      measurement: this.measurement
+      name : this.name,
+      details : this.details,
+      type : this.ingredientType,
+      measurement : this.measurement
     });
 
-
-    this.ingredientForm.valueChanges.subscribe(() => {
-      this.propagateChange(this.ingredientForm.getRawValue());
-    });
+    this.ingredientForm.valueChanges.subscribe(
+        () => { this.propagateChange(this.ingredientForm.getRawValue()); });
   }
 
   private propagateChange: (c: any) => void = noop;
@@ -98,9 +103,7 @@ export class IngredientComponent implements ControlValueAccessor {
     }
   }
 
-  public registerOnChange(fn: any) {
-    this.propagateChange = fn;
-  }
+  public registerOnChange(fn: any) { this.propagateChange = fn; }
 
   public registerOnTouched() {}
 }
