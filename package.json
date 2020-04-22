@@ -38,7 +38,7 @@
     "@angular/language-service": "^9.1.2",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.2",
-    "@types/node": "^12.11.1",
+    "@types/node": "^13.13.2",
     "codelyzer": "^5.1.2",
     "firebase-tools": "^8.0.0",
     "fuzzy": "^0.1.3",
