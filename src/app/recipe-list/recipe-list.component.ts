@@ -16,17 +16,18 @@ import {
 } from './filters';
 
 export type RecipeInfo = {
-  recipe: Recipe&{key: string}; have : Ingredient[]; dontHave : Ingredient[];
+  recipe: Recipe&{key : string}; have : Ingredient[]; dontHave : Ingredient[];
   percentIHave : number;
 }
 
-type RecipeWithDbKey = Recipe & {key: string};
+type RecipeWithDbKey = Recipe&{key : string};
 
 @Component({
   selector : 'app-recipe-list',
   templateUrl : './recipe-list.component.html',
   styleUrls : [ './recipe-list.component.css' ]
-}) export class RecipeListComponent implements OnInit {
+})
+export class RecipeListComponent implements OnInit {
   cocktails: Observable<RecipeWithDbKey[]>;
   latestCocktails: RecipeWithDbKey[];
   private haversAndHaveNots: RecipeInfo[] = [];

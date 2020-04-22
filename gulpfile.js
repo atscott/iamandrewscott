@@ -12,4 +12,4 @@ function loadTask(taskName) {
 
 // All source files.
 gulp.task('format:all', loadTask('format'));
-gulp.task('format', ['format:all']);
+gulp.task('format', gulp.series('format:all', (done) => {done();}));

@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import { RecipeInfo } from '../recipe-list.component';
+import {RecipeInfo} from '../recipe-list.component';
 
 @Component({
   selector : 'recipe-card',
