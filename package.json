@@ -58,7 +58,7 @@
     "karma-jasmine-html-reporter": "^1.2.0",
     "protractor": "^5.4.0",
     "ts-node": "~7.0.0",
-    "tslint": "~5.11.0",
+    "tslint": "~6.1.2",
     "typescript": "^3.8.3"
   },
   "// 4": "Overwrite graceful-fs to a version that does not rely on the 'natives' package. This fixes gulp for >= 10.13, more information: #28213",
