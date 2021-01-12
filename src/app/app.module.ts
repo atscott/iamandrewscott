@@ -33,8 +33,6 @@ import {ProgressiveBackgroundImageDirective} from './images/progressive-backgrou
 import {ProgressiveImageComponent} from './images/progressive-image.component';
 import {LandingComponent} from './landing/landing.component';
 import {LoggedInGuard} from './logged-in-guard';
-import {IngredientComponent} from './new-recipe/ingredient/ingredient.component';
-import {NewRecipeComponent} from './new-recipe/new-recipe.component';
 import {IngredientSelectorComponent} from './recipe-list/ingredient-selector/ingredient-selector.component';
 import {RecipeCardComponent} from './recipe-list/recipe-card/recipe-card.component';
 import {RecipeListComponent} from './recipe-list/recipe-list.component';
@@ -49,28 +47,23 @@ const routes: Route[] = [
     canActivate: [VerifiedUserGuard]
   },
   {
-    path: 'recipe',
-    component: NewRecipeComponent,
-    canActivate: [AdminUserGuard]
-  },
-  {
-    path: 'recipe/edit/:recipeId',
-    component: NewRecipeComponent,
-    canActivate: [AdminUserGuard]
-  },
-  {
     path: 'recipe/view/:recipeId',
     component: RecipeViewComponent,
     canActivate: [VerifiedUserGuard]
+  },
+  {
+    path: 'recipe',
+    loadChildren: () =>
+        import('./new-recipe/new-recipe.module').then(m => m.NewRecipeModule),
+    canLoad: [AdminUserGuard],
+    canActivate: [AdminUserGuard],
   },
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    NewRecipeComponent,
     RecipeListComponent,
-    IngredientComponent,
     LandingComponent,
     RecipeViewComponent,
     ProgressiveImageComponent,

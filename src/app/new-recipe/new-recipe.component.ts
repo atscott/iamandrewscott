@@ -3,7 +3,6 @@ import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireList, AngularFireObject} from '@angular/fire/database';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Params} from '@angular/router';
-import {Observable, Subscription} from 'rxjs';
 
 import {Ingredient} from './ingredient/ingredient.component';
 
@@ -31,7 +30,7 @@ export class NewRecipeComponent implements OnInit {
   directions: FormControl;
 
   constructor(
-      private db: AngularFireDatabase, private route: ActivatedRoute,
+      private db: AngularFireDatabase, route: ActivatedRoute,
       public location: Location) {
     this.cocktails = db.list('beer-cocktails');
 

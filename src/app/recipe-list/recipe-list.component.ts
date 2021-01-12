@@ -1,7 +1,7 @@
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {FormControl} from '@angular/forms';
-import {MatSidenav} from '@angular/material/sidenav';
+import {MatDrawerMode, MatSidenav} from '@angular/material/sidenav';
 import {ActivatedRoute, Router} from '@angular/router';
 import {merge, Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
@@ -11,8 +11,10 @@ import {Recipe} from '../new-recipe/new-recipe.component';
 
 import {removeGarnishIngredients, sortByMissingIngredientCount, sortByPercent} from './filters';
 
-export type RecipeInfo = {
-  recipe: Recipe&{key: string}; have: Ingredient[]; dontHave: Ingredient[];
+export interface RecipeInfo {
+  recipe: Recipe&{key: string};
+  have: Ingredient[];
+  dontHave: Ingredient[];
   percentIHave: number;
 }
 
@@ -27,11 +29,11 @@ export class RecipeListComponent implements OnInit {
   cocktails: Observable<RecipeWithDbKey[]>;
   latestCocktails: RecipeWithDbKey[];
   private haversAndHaveNots: RecipeInfo[] = [];
-  filteredCocktails: RecipeWithDbKey[];
+  filteredCocktails: RecipeInfo[];
   sortOption: FormControl;
   ignoreGarnishIngredients: FormControl;
   allIngredients: Ingredient[] = [];
-  sidenavMode: string;
+  sidenavMode: MatDrawerMode;
   selectedIngredients: Set<string> = new Set();
   @ViewChild('sidenav', {static: true}) sidenav: MatSidenav;
 

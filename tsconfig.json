@@ -30,5 +30,8 @@
     ],
     "module": "es2020",
     "baseUrl": "./"
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true,
   }
 }

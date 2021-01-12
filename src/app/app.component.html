@@ -1,7 +1,7 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <mat-toolbar color="primary">
-    <div fxFlexLayout="row" fxFlex="grow"> 
+    <div fxFlexLayout="row" fxFlex="grow">
       <div fxFlex="grow" fxLayoutAlign="start center">
         <button mat-button routerLink="/">
           <mat-icon>home</mat-icon>
@@ -10,7 +10,7 @@
         <button mat-button routerLink="/list">
           <span>Beer Cocktails</span>
         </button>
-        <button mat-button routerLink="/recipe"> new recipe </button>
+        <button mat-button routerLink="/recipe/new"> new recipe </button>
       </div>
       <div fxLayout="row" fxLayoutAlign="center center">
         <div> {{ (user | async)?.displayName }} </div>
