@@ -1,14 +1,12 @@
 import {Component, DebugElement} from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 
-import {
-  ProgressiveBackgroundImageDirective
-} from './progressive-background-image.directive';
+import {ProgressiveBackgroundImageDirective} from './progressive-background-image.directive';
 
 @Component({
-  selector : 'test-cmp',
-  template :
+  selector: 'test-cmp',
+  template:
       '<div progressiveBackgroundImage [lq]="lqImage" [hq]="hqImage"></div>'
 })
 export class TestCmp {
@@ -24,7 +22,7 @@ describe('progressive background image', () => {
   beforeEach(waitForAsync(() => {
     TestBed
         .configureTestingModule({
-          declarations : [ TestCmp, ProgressiveBackgroundImageDirective ],
+          declarations: [TestCmp, ProgressiveBackgroundImageDirective],
         })
         .compileComponents();
   }));

@@ -9,23 +9,19 @@ import {map, take} from 'rxjs/operators';
 import {Ingredient} from '../new-recipe/ingredient/ingredient.component';
 import {Recipe} from '../new-recipe/new-recipe.component';
 
-import {
-  removeGarnishIngredients,
-  sortByMissingIngredientCount,
-  sortByPercent
-} from './filters';
+import {removeGarnishIngredients, sortByMissingIngredientCount, sortByPercent} from './filters';
 
 export type RecipeInfo = {
-  recipe: Recipe&{key : string}; have : Ingredient[]; dontHave : Ingredient[];
-  percentIHave : number;
+  recipe: Recipe&{key: string}; have: Ingredient[]; dontHave: Ingredient[];
+  percentIHave: number;
 }
 
-type RecipeWithDbKey = Recipe&{key : string};
+type RecipeWithDbKey = Recipe&{key: string};
 
 @Component({
-  selector : 'app-recipe-list',
-  templateUrl : './recipe-list.component.html',
-  styleUrls : [ './recipe-list.component.css' ]
+  selector: 'app-recipe-list',
+  templateUrl: './recipe-list.component.html',
+  styleUrls: ['./recipe-list.component.css']
 })
 export class RecipeListComponent implements OnInit {
   cocktails: Observable<RecipeWithDbKey[]>;
@@ -37,33 +33,37 @@ export class RecipeListComponent implements OnInit {
   allIngredients: Ingredient[] = [];
   sidenavMode: string;
   selectedIngredients: Set<string> = new Set();
-  @ViewChild('sidenav', {static : true}) sidenav: MatSidenav;
+  @ViewChild('sidenav', {static: true}) sidenav: MatSidenav;
 
   get selectedIngredientsArray() {
     return Array.from(this.selectedIngredients);
   }
 
-  constructor(db: AngularFireDatabase, private router: Router,
-              private route: ActivatedRoute) {
+  constructor(
+      db: AngularFireDatabase, private router: Router,
+      private route: ActivatedRoute) {
     this.sortOption = new FormControl('missing');
     this.ignoreGarnishIngredients = new FormControl(false);
-    merge(this.sortOption.valueChanges,
-          this.ignoreGarnishIngredients.valueChanges)
+    merge(
+        this.sortOption.valueChanges,
+        this.ignoreGarnishIngredients.valueChanges)
         .subscribe(() => this.navigateToUpdateUrlState());
 
-    this.cocktails =
-        db.list<Recipe>('beer-cocktails')
-            .snapshotChanges()
-            .pipe(map(actions => actions.map(
-                          a => ({key : a.key, ...a.payload.val()}))));
+    this.cocktails = db.list<Recipe>('beer-cocktails')
+                         .snapshotChanges()
+                         .pipe(
+                             map(actions => actions.map(
+                                     a => ({key: a.key, ...a.payload.val()}))));
 
     this.cocktails.pipe(take(1)).subscribe((recipeList: RecipeWithDbKey[]) => {
       this.latestCocktails = recipeList;
       this.allIngredients = [];
       recipeList.map((recipe) => recipe.ingredients)
           .forEach(
-              (ingredientsInRecipe) => ingredientsInRecipe.forEach(
-                  (ingredient) => { this.allIngredients.push(ingredient); }));
+              (ingredientsInRecipe) =>
+                  ingredientsInRecipe.forEach((ingredient) => {
+                    this.allIngredients.push(ingredient);
+                  }));
 
       this.updateList();
     });
@@ -77,8 +77,8 @@ export class RecipeListComponent implements OnInit {
                         .map(ingredient => ingredient.toLowerCase()));
       } catch (e) {
       }
-      this.sortOption.setValue(params['sort'] === 'missing' ? 'missing'
-                                                            : 'have');
+      this.sortOption.setValue(
+          params['sort'] === 'missing' ? 'missing' : 'have');
       this.ignoreGarnishIngredients.setValue(
           params['ignoreGarnish'] === 'false' ? false : true);
       this.updateList();
@@ -89,10 +89,10 @@ export class RecipeListComponent implements OnInit {
   updateList() {
     const result = (this.latestCocktails || []).map((recipe) => {
       const {have, dontHave} = recipe.ingredients.reduce((acc, i) => {
-        return this.selectedIngredients.has(i.name.toLowerCase())
-                   ? {have : acc.have.concat(i), dontHave : acc.dontHave}
-                   : {have : acc.have, dontHave : acc.dontHave.concat(i)};
-      }, {have : [], dontHave : []});
+        return this.selectedIngredients.has(i.name.toLowerCase()) ?
+            {have: acc.have.concat(i), dontHave: acc.dontHave} :
+            {have: acc.have, dontHave: acc.dontHave.concat(i)};
+      }, {have: [], dontHave: []});
       const percentIHave =
           have.length === 0 ? 0 : have.length / recipe.ingredients.length;
 
@@ -104,20 +104,19 @@ export class RecipeListComponent implements OnInit {
 
   selectedIngredientsChange(ingredientNames: Set<string>) {
     this.selectedIngredients = ingredientNames;
-    this.router.navigate([ '/list' ], {
-      queryParams : {
-        ingredients : JSON.stringify([...Array.from(this.selectedIngredients) ])
+    this.router.navigate(['/list'], {
+      queryParams: {
+        ingredients: JSON.stringify([...Array.from(this.selectedIngredients)])
       }
     });
   }
 
   navigateToUpdateUrlState() {
-    this.router.navigate([ '/list' ], {
-      queryParams : {
-        ingredients :
-            JSON.stringify([...Array.from(this.selectedIngredients) ]),
-        sort : this.sortOption.value,
-        ignoreGarnish : this.ignoreGarnishIngredients.value,
+    this.router.navigate(['/list'], {
+      queryParams: {
+        ingredients: JSON.stringify([...Array.from(this.selectedIngredients)]),
+        sort: this.sortOption.value,
+        ignoreGarnish: this.ignoreGarnishIngredients.value,
       }
     });
   }
@@ -132,8 +131,8 @@ export class RecipeListComponent implements OnInit {
     } else {
       filterFunctions.push(sortByPercent);
     }
-    this.filteredCocktails = filterFunctions.reduce((result, f) => f(result),
-                                                    this.haversAndHaveNots);
+    this.filteredCocktails = filterFunctions.reduce(
+        (result, f) => f(result), this.haversAndHaveNots);
   }
 
   ngOnInit() {
@@ -145,7 +144,7 @@ export class RecipeListComponent implements OnInit {
     }
   }
 
-  @HostListener('window:resize', [ '$event' ])
+  @HostListener('window:resize', ['$event'])
   onResize(event) {
     if (event.target.innerWidth < 720) {
       this.sidenavMode = 'over';

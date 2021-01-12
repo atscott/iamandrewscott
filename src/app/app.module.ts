@@ -29,52 +29,44 @@ import {environment} from '../environments/environment';
 
 import {AdminUserGuard} from './admin-user-guard';
 import {AppComponent} from './app.component';
-import {
-  ProgressiveBackgroundImageDirective
-} from './images/progressive-background-image.directive';
+import {ProgressiveBackgroundImageDirective} from './images/progressive-background-image.directive';
 import {ProgressiveImageComponent} from './images/progressive-image.component';
 import {LandingComponent} from './landing/landing.component';
 import {LoggedInGuard} from './logged-in-guard';
-import {
-  IngredientComponent
-} from './new-recipe/ingredient/ingredient.component';
+import {IngredientComponent} from './new-recipe/ingredient/ingredient.component';
 import {NewRecipeComponent} from './new-recipe/new-recipe.component';
-import {
-  IngredientSelectorComponent
-} from './recipe-list/ingredient-selector/ingredient-selector.component';
-import {
-  RecipeCardComponent
-} from './recipe-list/recipe-card/recipe-card.component';
+import {IngredientSelectorComponent} from './recipe-list/ingredient-selector/ingredient-selector.component';
+import {RecipeCardComponent} from './recipe-list/recipe-card/recipe-card.component';
 import {RecipeListComponent} from './recipe-list/recipe-list.component';
 import {RecipeViewComponent} from './recipe-view/recipe-view.component';
 import {VerifiedUserGuard} from './verified-user-guard';
 
 const routes: Route[] = [
-  {path : '', component : LandingComponent},
+  {path: '', component: LandingComponent},
   {
-    path : 'list',
-    component : RecipeListComponent,
-    canActivate : [ VerifiedUserGuard ]
+    path: 'list',
+    component: RecipeListComponent,
+    canActivate: [VerifiedUserGuard]
   },
   {
-    path : 'recipe',
-    component : NewRecipeComponent,
-    canActivate : [ AdminUserGuard ]
+    path: 'recipe',
+    component: NewRecipeComponent,
+    canActivate: [AdminUserGuard]
   },
   {
-    path : 'recipe/edit/:recipeId',
-    component : NewRecipeComponent,
-    canActivate : [ AdminUserGuard ]
+    path: 'recipe/edit/:recipeId',
+    component: NewRecipeComponent,
+    canActivate: [AdminUserGuard]
   },
   {
-    path : 'recipe/view/:recipeId',
-    component : RecipeViewComponent,
-    canActivate : [ VerifiedUserGuard ]
+    path: 'recipe/view/:recipeId',
+    component: RecipeViewComponent,
+    canActivate: [VerifiedUserGuard]
   },
 ];
 
 @NgModule({
-  declarations : [
+  declarations: [
     AppComponent,
     NewRecipeComponent,
     RecipeListComponent,
@@ -86,7 +78,7 @@ const routes: Route[] = [
     IngredientSelectorComponent,
     RecipeCardComponent,
   ],
-  imports : [
+  imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
@@ -112,11 +104,11 @@ const routes: Route[] = [
     MatListModule,
     MatChipsModule,
   ],
-  providers : [
+  providers: [
     VerifiedUserGuard, AdminUserGuard, LoggedInGuard,
-    {provide : APP_BASE_HREF, useValue : '/'}
+    {provide: APP_BASE_HREF, useValue: '/'}
   ],
-  bootstrap : [ AppComponent ]
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

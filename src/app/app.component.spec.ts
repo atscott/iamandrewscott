@@ -1,12 +1,11 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import {TestBed, waitForAsync} from '@angular/core/testing';
 
 import {AppComponent} from './app.component';
 import {AppModule} from './app.module';
 
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({imports : [ AppModule ]})
-        .compileComponents();
+    TestBed.configureTestingModule({imports: [AppModule]}).compileComponents();
   }));
 
   it('should create the app', waitForAsync(() => {

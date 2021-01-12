@@ -6,16 +6,17 @@ import {Observable} from 'rxjs';
 import {Recipe} from '../new-recipe/new-recipe.component';
 
 @Component({
-  selector : 'app-recipe-view',
-  templateUrl : './recipe-view.component.html',
-  styleUrls : [ './recipe-view.component.css' ]
+  selector: 'app-recipe-view',
+  templateUrl: './recipe-view.component.html',
+  styleUrls: ['./recipe-view.component.css']
 })
 export class RecipeViewComponent {
   recipe: Observable<Recipe>;
   recipeId?: string;
 
-  constructor(private db: AngularFireDatabase, private router: Router,
-              private route: ActivatedRoute) {
+  constructor(
+      private db: AngularFireDatabase, private router: Router,
+      private route: ActivatedRoute) {
     this.recipeId = this.route.snapshot.params['recipeId'];
     this.checkParamsForDbid();
   }
@@ -26,7 +27,7 @@ export class RecipeViewComponent {
           this.db.object(`/beer-cocktails/${this.recipeId}`).valueChanges() as
           Observable<Recipe>;
     } else {
-      this.router.navigate([ '/list' ]);
+      this.router.navigate(['/list']);
     }
   }
 }

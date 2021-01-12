@@ -11,17 +11,19 @@ import {map} from 'rxjs/operators';
 export class LoggedInGuard implements CanActivate {
   user: Observable<firebase.User>;
 
-  constructor(private readonly afAuth: AngularFireAuth, private router: Router,
-              private snackbar: MatSnackBar) {
+  constructor(
+      private readonly afAuth: AngularFireAuth, private router: Router,
+      private snackbar: MatSnackBar) {
     this.user = afAuth.authState;
   }
 
   canActivate() {
     return this.user.pipe(map((u) => {
       if (!u || !u.uid) {
-        this.snackbar.open('You need to be an logged in to access that.',
-                           'dismiss', {duration : 3000});
-        this.router.navigate([ '/' ]);
+        this.snackbar.open(
+            'You need to be an logged in to access that.', 'dismiss',
+            {duration: 3000});
+        this.router.navigate(['/']);
         return false;
       }
       return true;

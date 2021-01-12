@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {IngredientSelectorComponent} from './ingredient-selector.component';
 
@@ -8,8 +8,7 @@ describe('IngredientSelectorComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed
-        .configureTestingModule(
-            {declarations : [ IngredientSelectorComponent ]})
+        .configureTestingModule({declarations: [IngredientSelectorComponent]})
         .compileComponents();
   }));
 
@@ -19,5 +18,7 @@ describe('IngredientSelectorComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => { expect(component).toBeTruthy(); });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

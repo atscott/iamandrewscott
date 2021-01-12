@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {AppModule} from '../app.module';
 import {RecipeListComponent} from './recipe-list.component';
@@ -8,8 +8,7 @@ describe('RecipeListComponent', () => {
   let fixture: ComponentFixture<RecipeListComponent>;
 
   beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({imports : [ AppModule ]})
-        .compileComponents();
+    TestBed.configureTestingModule({imports: [AppModule]}).compileComponents();
   }));
 
   beforeEach(() => {
@@ -18,5 +17,7 @@ describe('RecipeListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => { expect(component).toBeTruthy(); });
+  it('should be created', () => {
+    expect(component).toBeTruthy();
+  });
 });

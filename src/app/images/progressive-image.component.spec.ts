@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ProgressiveImageComponent} from './progressive-image.component';
 
@@ -7,8 +7,7 @@ describe('ProgressiveImageComponent', () => {
   let fixture: ComponentFixture<ProgressiveImageComponent>;
 
   beforeEach(waitForAsync(() => {
-    TestBed
-        .configureTestingModule({declarations : [ ProgressiveImageComponent ]})
+    TestBed.configureTestingModule({declarations: [ProgressiveImageComponent]})
         .compileComponents();
   }));
 
@@ -18,5 +17,7 @@ describe('ProgressiveImageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => { expect(component).toBeTruthy(); });
+  it('should be created', () => {
+    expect(component).toBeTruthy();
+  });
 });

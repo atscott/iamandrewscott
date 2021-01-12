@@ -1,12 +1,12 @@
 import {Directive, HostBinding} from '@angular/core';
 
 @Directive({
-  selector : '[progressiveBackgroundImage]',
-  host : {
-    '[style.transition]' : '"background-image 1s linear"',
-    '[class.blur]' : '!hqLoaded'
+  selector: '[progressiveBackgroundImage]',
+  host: {
+    '[style.transition]': '"background-image 1s linear"',
+    '[class.blur]': '!hqLoaded'
   },
-  inputs : [ 'hq', 'lq' ],
+  inputs: ['hq', 'lq'],
 })
 export class ProgressiveBackgroundImageDirective {
   lq: string;
@@ -15,12 +15,13 @@ export class ProgressiveBackgroundImageDirective {
   hqLoaded = false;
 
   ngOnChanges() {
-    if (!this.hq)
-      return;
+    if (!this.hq) return;
     this.hqLoaded = false;
 
     const img = new Image();
-    img.onload = () => { this.hqLoaded = true; };
+    img.onload = () => {
+      this.hqLoaded = true;
+    };
     img.src = this.hq;
   }
 
