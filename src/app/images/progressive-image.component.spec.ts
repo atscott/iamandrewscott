@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import {ProgressiveImageComponent} from './progressive-image.component';
 
@@ -6,7 +6,7 @@ describe('ProgressiveImageComponent', () => {
   let component: ProgressiveImageComponent;
   let fixture: ComponentFixture<ProgressiveImageComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed
         .configureTestingModule({declarations : [ ProgressiveImageComponent ]})
         .compileComponents();
