@@ -62,7 +62,6 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
-    AppComponent,
     RecipeListComponent,
     LandingComponent,
     RecipeViewComponent,
@@ -101,7 +100,6 @@ const routes: Route[] = [
     VerifiedUserGuard, AdminUserGuard, LoggedInGuard,
     {provide: APP_BASE_HREF, useValue: '/'}
   ],
-  bootstrap: [AppComponent]
 })
 export class AppModule {
 }
