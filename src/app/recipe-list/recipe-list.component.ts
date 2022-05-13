@@ -1,5 +1,5 @@
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
-import {AngularFireDatabase} from '@angular/fire/database';
+import {AngularFireDatabase} from '@angular/fire/compat/database';
 import {FormControl} from '@angular/forms';
 import {MatDrawerMode, MatSidenav} from '@angular/material/sidenav';
 import {ActivatedRoute, Router} from '@angular/router';

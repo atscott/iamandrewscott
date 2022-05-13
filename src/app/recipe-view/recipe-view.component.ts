@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AngularFireDatabase} from '@angular/fire/database';
+import {AngularFireDatabase} from '@angular/fire/compat/database';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 

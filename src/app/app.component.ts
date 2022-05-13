@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {Router} from '@angular/router';
-import {auth, User} from 'firebase/app';
+// import {auth, User} from 'firebase/compat/app';
+import {User, auth} from 'firebase'
 import {Observable} from 'rxjs';
 
 @Component({

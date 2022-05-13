@@ -1,6 +1,6 @@
 import {Location} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
-import {AngularFireDatabase, AngularFireList, AngularFireObject} from '@angular/fire/database';
+import {AngularFireDatabase, AngularFireList, AngularFireObject} from '@angular/fire/compat/database';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Params} from '@angular/router';
 

@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFireDatabase} from '@angular/fire/database';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFireDatabase} from '@angular/fire/compat/database';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {CanActivate} from '@angular/router';
 import {Router} from '@angular/router';
-import * as firebase from 'firebase/app';
+import {User} from 'firebase';
 import {Observable, of} from 'rxjs';
 import {flatMap, map} from 'rxjs/operators';
 
 @Injectable()
 export class VerifiedUserGuard implements CanActivate {
-  user: Observable<firebase.User>;
+  user: Observable<User>;
 
   constructor(
       private readonly afAuth: AngularFireAuth, private router: Router,
