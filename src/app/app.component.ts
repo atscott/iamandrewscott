@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {Router} from '@angular/router';
 // import {auth, User} from 'firebase/compat/app';
-import {User, auth} from 'firebase'
+import {GoogleAuthProvider, User} from 'firebase/auth'
 import {Observable} from 'rxjs';
 
 @Component({
@@ -19,7 +19,7 @@ export class AppComponent {
   }
 
   login() {
-    this.afAuth.signInWithPopup(new auth.GoogleAuthProvider());
+    this.afAuth.signInWithPopup(new GoogleAuthProvider());
   }
 
   logout() {

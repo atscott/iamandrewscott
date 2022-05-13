@@ -3,7 +3,7 @@ import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {CanActivate} from '@angular/router';
 import {Router} from '@angular/router';
-import {User} from 'firebase';
+import {User} from 'firebase/auth';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 

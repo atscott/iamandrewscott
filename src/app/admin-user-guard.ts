@@ -4,7 +4,7 @@ import {AngularFireDatabase} from '@angular/fire/compat/database';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {CanActivate, CanLoad} from '@angular/router';
 import {Router} from '@angular/router';
-import {User} from 'firebase';
+import {User} from 'firebase/auth';
 import {Observable, of} from 'rxjs';
 import {flatMap, map} from 'rxjs/operators';
 
