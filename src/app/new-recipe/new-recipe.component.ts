@@ -1,10 +1,15 @@
-import {Location} from '@angular/common';
+import {CommonModule, Location} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireList, AngularFireObject} from '@angular/fire/compat/database';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import {FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import {ActivatedRoute, Params} from '@angular/router';
 
-import {Ingredient} from './ingredient/ingredient.component';
+import {Ingredient, IngredientComponent} from './ingredient/ingredient.component';
 
 export type Recipe = {
   ingredients: Ingredient[],
@@ -17,7 +22,18 @@ export type Recipe = {
 @Component({
   selector: 'app-new-recipe',
   templateUrl: './new-recipe.component.html',
-  styleUrls: ['./new-recipe.component.css']
+  styleUrls: ['./new-recipe.component.css'],
+  standalone: true,
+  imports: [
+    MatCardModule,
+    ReactiveFormsModule,
+    FlexLayoutModule,
+    MatInputModule,
+    MatFormFieldModule,
+    CommonModule,
+    MatButtonModule,
+    IngredientComponent,
+  ]
 })
 export class NewRecipeComponent implements OnInit {
   private cocktails: AngularFireList<any>;

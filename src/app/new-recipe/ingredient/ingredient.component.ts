@@ -1,5 +1,10 @@
+import { CommonModule } from '@angular/common';
 import {Component, forwardRef, OnInit} from '@angular/core';
-import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms';
+import { MatOptionModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 const noop = () => {};
 
@@ -41,7 +46,16 @@ export type Ingredient = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => IngredientComponent),
     multi: true
-  }]
+  }],
+  standalone: true,
+  imports: [
+    MatOptionModule,
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+  ]
 })
 export class IngredientComponent implements ControlValueAccessor {
   ingredientForm: FormGroup;

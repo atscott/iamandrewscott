@@ -1,4 +1,4 @@
-import {RecipeInfo} from './recipe-list.component';
+import { RecipeInfo } from "./recipe-info";
 
 export function sortByMissingIngredientCount(l: RecipeInfo[]) {
   l.sort((a, b) => a.dontHave.length - b.dontHave.length);

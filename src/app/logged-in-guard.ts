@@ -7,7 +7,7 @@ import {User} from 'firebase/auth';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class LoggedInGuard implements CanActivate {
   user: Observable<User>;
 

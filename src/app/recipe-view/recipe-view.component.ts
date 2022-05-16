@@ -1,6 +1,10 @@
+import { CommonModule } from '@angular/common';
 import {Component} from '@angular/core';
 import {AngularFireDatabase} from '@angular/fire/compat/database';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import {ActivatedRoute, Params, Router, RouterModule} from '@angular/router';
 import {Observable} from 'rxjs';
 
 import {Recipe} from '../new-recipe/new-recipe.component';
@@ -8,7 +12,15 @@ import {Recipe} from '../new-recipe/new-recipe.component';
 @Component({
   selector: 'app-recipe-view',
   templateUrl: './recipe-view.component.html',
-  styleUrls: ['./recipe-view.component.css']
+  styleUrls: ['./recipe-view.component.css'],
+  standalone: true,
+  imports: [
+    RouterModule,
+    MatCardModule,
+    CommonModule,
+    MatListModule,
+    MatButtonModule,
+  ]
 })
 export class RecipeViewComponent {
   recipe: Observable<Recipe>;

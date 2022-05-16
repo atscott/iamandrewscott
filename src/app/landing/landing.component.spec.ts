@@ -1,6 +1,6 @@
 import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
-import {AppModule} from '../app.module';
+import {AppModule} from '../routes';
 import {LandingComponent} from './landing.component';
 
 describe('LandingComponent', () => {
