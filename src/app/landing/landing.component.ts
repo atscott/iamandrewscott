@@ -1,12 +1,21 @@
+import { CommonModule } from '@angular/common';
 import {Component} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
+import { MatCardModule } from '@angular/material/card';
 import {User, GoogleAuthProvider} from 'firebase/auth';
 import {Observable} from 'rxjs';
+import { ProgressiveBackgroundImageDirective } from '../images/progressive-background-image.directive';
 
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.css']
+  styleUrls: ['./landing.component.css'],
+  standalone: true,
+  imports: [
+    MatCardModule,
+    CommonModule,
+    ProgressiveBackgroundImageDirective,
+  ]
 })
 export class LandingComponent {
   readonly hqImage =

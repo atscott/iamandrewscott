@@ -8,7 +8,7 @@ import {User} from 'firebase/auth';
 import {Observable, of} from 'rxjs';
 import {flatMap, map} from 'rxjs/operators';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AdminUserGuard implements CanActivate, CanLoad {
   user: Observable<User>;
 

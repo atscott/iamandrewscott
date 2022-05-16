@@ -1,8 +1,10 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {CommonModule} from '@angular/common';
 import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
-import {MatChipInputEvent} from '@angular/material/chips';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 
@@ -12,6 +14,14 @@ import {Ingredient} from '../../new-recipe/ingredient/ingredient.component';
   selector: 'ingredient-selector',
   templateUrl: './ingredient-selector.component.html',
   styleUrls: ['./ingredient-selector.component.css'],
+  standalone: true,
+  imports: [
+    MatChipsModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    CommonModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IngredientSelectorComponent {
@@ -21,8 +31,7 @@ export class IngredientSelectorComponent {
   ingredientsByType: Map<string, Set<string>> = new Map();
   ingredientNames: Set<string> = new Set();
 
-  readonly filteredIngredientTypes:
-      Observable<Array<{name: string, ingredients: string[]}>>;
+  readonly filteredIngredientTypes: Observable<Array<{name: string, ingredients: string[]}>>;
   readonly ingredientControl = new FormControl();
   separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('ingredientInput', {static: true}) ingredientInput: ElementRef;
@@ -48,20 +57,14 @@ export class IngredientSelectorComponent {
     }
   }
 
-  private filterTypes(value: string):
-      Array<{name: string, ingredients: string[]}> {
+  private filterTypes(value: string): Array<{name: string, ingredients: string[]}> {
     const filterValue = value.toLowerCase();
-    const typesArray =
-        Array.from(this.ingredientsByType.keys()).reduce((types, type) => {
-          const ingredients = Array.from(this.ingredientsByType.get(type));
-          types.push({
-            name: type,
-            ingredients: this.filterIngredients(ingredients, filterValue)
-          });
-          return types;
-        }, []);
-    return typesArray
-        .map(type => ({name: type.name, ingredients: type.ingredients}))
+    const typesArray = Array.from(this.ingredientsByType.keys()).reduce((types, type) => {
+      const ingredients = Array.from(this.ingredientsByType.get(type));
+      types.push({name: type, ingredients: this.filterIngredients(ingredients, filterValue)});
+      return types;
+    }, []);
+    return typesArray.map(type => ({name: type.name, ingredients: type.ingredients}))
         .filter(type => type.ingredients.length > 0);
   }
 
@@ -74,8 +77,7 @@ export class IngredientSelectorComponent {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    if (!this.ingredientNames.has(value) ||
-        this.selectedIngredients.has(value)) {
+    if (!this.ingredientNames.has(value) || this.selectedIngredients.has(value)) {
       return;
     }
 

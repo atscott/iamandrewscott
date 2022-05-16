@@ -20,6 +20,10 @@
     <recipe-card *ngFor="let info of filteredCocktails" [recipeInfo]="info"
                  style="margin: 16px;" fxFlex="400px" fxFlex.xs="90%">
     </recipe-card>
+    <!-- <div *ngFor="let info of filteredCocktails" 
+                 style="margin: 16px;" fxFlex="400px" fxFlex.xs="90%">
+                 {{info | json}}
+  </div> -->
   </div>
 </mat-sidenav-container>
 <button mat-fab (click)="toggleSidenav()" *ngIf="sidenavMode === 'over'">

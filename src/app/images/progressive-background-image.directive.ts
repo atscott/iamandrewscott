@@ -7,6 +7,7 @@ import {Directive, HostBinding} from '@angular/core';
     '[class.blur]': '!hqLoaded'
   },
   inputs: ['hq', 'lq'],
+  standalone: true,
 })
 export class ProgressiveBackgroundImageDirective {
   lq: string;

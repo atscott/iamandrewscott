@@ -39,7 +39,7 @@ import {RecipeListComponent} from './recipe-list/recipe-list.component';
 import {RecipeViewComponent} from './recipe-view/recipe-view.component';
 import {VerifiedUserGuard} from './verified-user-guard';
 
-const routes: Route[] = [
+export const routes: Route[] = [
   {path: '', component: LandingComponent},
   {
     path: 'list',
@@ -59,47 +59,3 @@ const routes: Route[] = [
     canActivate: [AdminUserGuard],
   },
 ];
-
-@NgModule({
-  declarations: [
-    RecipeListComponent,
-    LandingComponent,
-    RecipeViewComponent,
-    ProgressiveImageComponent,
-    ProgressiveBackgroundImageDirective,
-    IngredientSelectorComponent,
-    RecipeCardComponent,
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    FlexLayoutModule,
-    RouterModule.forRoot(routes),
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule,
-    AngularFireAuthModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatCardModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatAutocompleteModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatMenuModule,
-    MatGridListModule,
-    MatSnackBarModule,
-    MatExpansionModule,
-    MatListModule,
-    MatChipsModule,
-  ],
-  providers: [
-    VerifiedUserGuard, AdminUserGuard, LoggedInGuard,
-    {provide: APP_BASE_HREF, useValue: '/'}
-  ],
-})
-export class AppModule {
-}
